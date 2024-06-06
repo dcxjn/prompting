@@ -27,16 +27,14 @@ def main():
         transform=image_util.load_image,
     )
 
-    def get_human_instructions(inputs: dict) -> str:
-        """Get the instructions for a human to perform the required task given an image."""
+    def get_image_details(inputs: dict) -> str:
+        """Get relevant features of an image given a task."""
 
         prompt = f"""
-        Observe the given image and its details. Pick out only the relevant details for the task of: {inputs['task']}.
-        Provide a step-by-step guide on how a human would complete the task.
-        Link each instruction to an observation in the image in this format: "Observation: Instruction".
+        Observe the given image and its details. Given the task of: {inputs['task']}, pick out only the relevant features from the image.
         """
 
-        model = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
+        model = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
         msg = model.invoke(
             [
                 HumanMessage(
@@ -50,6 +48,31 @@ def main():
                             "image_url": {
                                 "url": f"data:image/jpeg;base64,{inputs['image']}"
                             },
+                        },
+                    ]
+                )
+            ]
+        )
+        return msg.content
+
+    def get_human_instructions(details: str) -> str:
+        """Get the instructions for a human to perform the required task given the image details."""
+
+        prompt = f"""
+        Details: {details}
+        Given the relevant details, provide a step-by-step guide on how a human would complete the task.
+        Link each instruction to an observation in the image in this format: "Observation: Instruction".
+        Ensure that the instructions are specific and accurate.
+        """
+
+        model = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
+        msg = model.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "text",
+                            "text": prompt,
                         },
                     ]
                 )
@@ -72,7 +95,6 @@ def main():
         Human instuctions: {human_inst}
 
         Given the human instructions you have been provided and the commands you are able to execute, provide a step-by-step guide on how the robot would complete the task.
-        Provide a concise summary of the code commands at the end.
         """
 
         model = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
@@ -92,13 +114,17 @@ def main():
 
     def run_chain(image_path: dict, task: str) -> str:
 
-        chain = load_image_chain | get_human_instructions | get_robot_instructions
+        chain = (
+            load_image_chain
+            | get_image_details
+            | get_human_instructions
+            | get_robot_instructions
+        )
         return chain.invoke({"image_path": f"{image_path}", "task": task})
 
     # image_path = input("Enter the path of the image: ")
-    # image_path = "images\housedoor_knob_push.jpg"
-    image_path = "images\labdoor_straighthandle_pull.jpg"
-    # image_path = "images\whitetable.jpg"
+    image_path = "images\housedoor_knob_push.jpg"
+    # image_path = "images\labdoor_straighthandle_pull.jpg"
     task = input("Enter the task to be performed: ")
     result = run_chain(image_path, task)
     print(result)
