@@ -1,9 +1,3 @@
-# To test:
-# 1. Get description of image
-# 2. Set the role
-# 3. Give the list of available commands
-# 4. Provide the action to be taken alongside the prompt.
-
 import os
 from dotenv import load_dotenv
 
@@ -32,7 +26,7 @@ def main():
 
         prompt = f"""
         Observe the given image and its details. Pick out only the relevant details for the task of: {inputs['task']}.
-        Provide a step-by-step guide on how a human would complete the task.
+        Provide a detailed step-by-step guide on how a human would complete the task.
         Link each instruction to an observation in the image in this format: "Observation: Instruction".
         """
 
@@ -71,7 +65,7 @@ def main():
 
         Human instuctions: {human_inst}
 
-        Given the human instructions you have been provided and the commands you are able to execute, provide a step-by-step guide on how the robot would complete the task.
+        Given the human instructions you have been provided and the commands you are able to execute, provide a guide on how the robot would complete the task.
         Provide a concise summary of the code commands at the end.
         """
 
@@ -96,11 +90,13 @@ def main():
         return chain.invoke({"image_path": f"{image_path}", "task": task})
 
     # image_path = input("Enter the path of the image: ")
-    # image_path = "images\housedoor_knob_push.jpg"
-    image_path = "images\labdoor_straighthandle_pull.jpg"
-    # image_path = "images\whitetable.jpg"
+    # image_path = r"images\housedoor_knob_push.jpg"
+    # image_path = r"images\labdoor_straighthandle_pull.jpg"
+    # image_path = r"images\whitetable.jpg"
+    image_path = r"images\fridge_lefthandle.jpg"
     task = input("Enter the task to be performed: ")
     result = run_chain(image_path, task)
+    print("\n==========\n")
     print(result)
 
 

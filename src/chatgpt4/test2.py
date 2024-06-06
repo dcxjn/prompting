@@ -1,9 +1,3 @@
-# To test:
-# 1. Get description of image
-# 2. Set the role
-# 3. Give the list of available commands
-# 4. Provide the action to be taken alongside the prompt.
-
 import os
 from dotenv import load_dotenv
 
