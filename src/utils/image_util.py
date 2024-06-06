@@ -18,6 +18,7 @@ def load_image(inputs: dict) -> dict:
 
 def resize_image(image_path, output_path, max_width=950, max_height=630):
     """Resize the image to the maximum allowed resolution of 950x630."""
+
     with Image.open(image_path) as img:
         # check if the image size exceeds the maximum allowed resolution
         if img.width > max_width or img.height > max_height:
