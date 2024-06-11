@@ -15,9 +15,9 @@ from src.utils.memory_history_util import InMemoryHistory
 
 """
 Author: Dayna Chia
-Date: 2024-06-10
+Date: 2024-06-11
 Notes: 
-- Uses the method of Reflection (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
+- Uses the method of Self-Consistency (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
 - Implements memory history
 """
 
@@ -44,11 +44,11 @@ def main():
             store[session_id] = InMemoryHistory()
         return store[session_id]
 
-    def get_instructions(inputs: dict) -> dict:
+    def get_instructions(inputs: dict, session_id: str) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
         # llm = ChatOpenAI(temperature=0, model="gpt-4-turbo-2024-04-09", max_tokens=4096)
-        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0.5, model="gpt-4o", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,
@@ -78,12 +78,11 @@ def main():
                     ]
                 )
             ],
-            config={"configurable": {"session_id": "abc"}},
+            config={"configurable": {"session_id": session_id}},
         )
 
         prompt2 = f"""
         By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
-        Check that each instruction is logical.
         """
 
         msg = runnable_with_history.invoke(
@@ -97,10 +96,23 @@ def main():
                     ]
                 )
             ],
-            config={"configurable": {"session_id": "abc"}},
+            config={"configurable": {"session_id": session_id}},
         )
 
         return {"bot_inst": msg.content}
+
+    def get_n_instructions(inputs: dict) -> dict:
+
+        output1 = get_instructions(inputs, "1")
+        output2 = get_instructions(inputs, "2")
+        output3 = get_instructions(inputs, "3")
+
+        return {
+            "image": inputs["image"],
+            "bot_inst1": output1["bot_inst"],
+            "bot_inst2": output2["bot_inst"],
+            "bot_inst3": output3["bot_inst"],
+        }
 
     def get_code_summary(inputs: dict) -> dict:
         """Get the code commands given the instructions."""
@@ -127,10 +139,48 @@ def main():
 
         return {"code_summary": msg.content}
 
+    def refine_instructions(inputs: dict) -> dict:
+
+        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
+
+        prompt = f"""
+        Instructions 1: {inputs["bot_inst1"]}
+        Instructions 2: {inputs["bot_inst2"]}
+        Instructions 3: {inputs["bot_inst3"]}
+        Refer to the image again. Compare the different sets of instructions and list down the discrepancies.
+        Make necessary corrections to ensure consistency in the instructions and provide a final set of instructions.
+        """
+
+        msg = llm.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": f"data:image/jpeg;base64,{inputs['image']}"
+                            },
+                        },
+                        {
+                            "type": "text",
+                            "text": prompt,
+                        },
+                    ]
+                )
+            ]
+        )
+
+        return {"bot_inst": msg.content}
+
     def run_chain(image_path: dict, task: str, bot_commands: str) -> str:
         """Run the chain."""
 
-        chain = load_image_chain | get_instructions | get_code_summary
+        chain = (
+            load_image_chain
+            | get_n_instructions
+            | refine_instructions
+            | get_code_summary
+        )
         return chain.invoke(
             {
                 "image_path": f"{image_path}",
@@ -151,9 +201,9 @@ def main():
 
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images\fridge_lefthandle.jpg"
-    image_path = r"images\housedoor_knob_push.jpg"
-    # image_path = r"images\browndoor_knob_pull.jpg"
+    # image_path = r"images\housedoor_knob_push.jpg"
     # image_path = r"images\labdoor_straighthandle_pull.jpg"
+    image_path = r"images\browndoor_knob_pull.jpg"
     # image_path = r"images\whitetable.jpg"
 
     resize_image(image_path, image_path)
