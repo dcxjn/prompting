@@ -36,15 +36,10 @@ def resize_image(image_path, output_path, max_width=950, max_height=630):
 
             # save the resized image
             resized_img.save(output_path)
-            print(
-                f"Image resized to: {new_width}x{new_height} and saved to {output_path}"
-            )
+
         else:
             # If the image is within the desired resolution, just save it to the output path
             img.save(output_path)
-            print(
-                f"Image is already within the desired resolution and saved to {output_path}"
-            )
 
 
 def draw_bounding_boxes(output_path: str, bounding_boxes: str):
