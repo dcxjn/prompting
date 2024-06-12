@@ -32,7 +32,7 @@ def resize_image(image_path, output_path, max_width=950, max_height=630):
                 new_width = int(max_height * aspect_ratio)
 
             # resize the image
-            resized_img = img.resize((new_width, new_height), Image.ANTIALIAS)
+            resized_img = img.resize((new_width, new_height), Image.LANCZOS)
 
             # save the resized image
             resized_img.save(output_path)

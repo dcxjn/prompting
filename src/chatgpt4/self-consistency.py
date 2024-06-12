@@ -18,7 +18,6 @@ Author: Dayna Chia
 Date: 2024-06-11
 Notes: 
 - Uses the method of Self-Consistency (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
-- Implements memory history
 """
 
 
@@ -114,31 +113,6 @@ def main():
             "bot_inst3": output3["bot_inst"],
         }
 
-    def get_code_summary(inputs: dict) -> dict:
-        """Get the code commands given the instructions."""
-
-        llm = ChatOpenAI(temperature=0.2, model="gpt-4", max_tokens=4096)
-
-        prompt = f"""
-        Instructions: {inputs["bot_inst"]}
-        Given the instructions, provide the code commands to execute the task and concise comments only.
-        """
-
-        msg = llm.invoke(
-            [
-                HumanMessage(
-                    content=[
-                        {
-                            "type": "text",
-                            "text": prompt,
-                        },
-                    ]
-                )
-            ]
-        )
-
-        return {"code_summary": msg.content}
-
     def refine_instructions(inputs: dict) -> dict:
 
         llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
@@ -172,6 +146,31 @@ def main():
 
         return {"bot_inst": msg.content}
 
+    def get_code_summary(inputs: dict) -> dict:
+        """Get the code commands given the instructions."""
+
+        llm = ChatOpenAI(temperature=0.2, model="gpt-4", max_tokens=4096)
+
+        prompt = f"""
+        Instructions: {inputs["bot_inst"]}
+        Given the instructions, provide the code commands to execute the task and concise comments only.
+        """
+
+        msg = llm.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "text",
+                            "text": prompt,
+                        },
+                    ]
+                )
+            ]
+        )
+
+        return {"code_summary": msg.content}
+
     def run_chain(image_path: dict, task: str, bot_commands: str) -> str:
         """Run the chain."""
 
@@ -203,7 +202,8 @@ def main():
     # image_path = r"images\fridge_lefthandle.jpg"
     # image_path = r"images\housedoor_knob_push.jpg"
     # image_path = r"images\labdoor_straighthandle_pull.jpg"
-    image_path = r"images\browndoor_knob_pull.jpg"
+    # image_path = r"images\browndoor_knob_pull.jpg"
+    image_path = r"images\bluedoor_knob_push.jpg"
     # image_path = r"images\whitetable.jpg"
 
     resize_image(image_path, image_path)
