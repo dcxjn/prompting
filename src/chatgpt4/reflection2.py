@@ -15,10 +15,10 @@ from src.utils.memory_history_util import InMemoryHistory
 
 """
 Author: Dayna Chia
-Date: 2024-06-10
-Note: 
-- Uses the method of Chain of Thought (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
-- Implements memory history (vs regular CoT in chain-of-thought.py)
+Date: 2024-06-13
+Notes: 
+- Uses the method of Reflection (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
+- Combined with the method of Chain of Thought (Prompt Design and Engineering: Introduction and Advanced Methods, 2024)
 """
 
 
@@ -47,7 +47,8 @@ def main():
     def get_instructions(inputs: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
-        llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
+        # llm = ChatOpenAI(temperature=0, model="gpt-4-turbo-2024-04-09", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,
@@ -55,8 +56,8 @@ def main():
         )
 
         prompt1 = f"""
-        Observe the given image and its details. Pick out only the relevant details for the task of: {inputs["task"]}.
-        Provide a detailed step-by-step guide on how a human would complete the task.
+        Observe the given image and its details.
+        Provide a detailed step-by-step guide on how a human would complete the task of: {inputs["task"]}.
         Link each instruction to an observation in the image in this format: "Observation: Instruction".
         """
 
@@ -77,15 +78,15 @@ def main():
                     ]
                 )
             ],
-            config={"configurable": {"session_id": "1"}},
+            config={"configurable": {"session_id": "abc"}},
         )
 
         prompt2 = f"""
         Imagine you are in control of a robotic arm with the following commands: {inputs["bot_commands"]}
-        Given the human instructions you have generated and the commands you are able to execute, provide a guide on how the robot would complete the task.
+        Given the human instructions you have generated, provide a guide on how the robot would complete the task.
         """
 
-        msg = runnable_with_history.invoke(
+        runnable_with_history.invoke(
             [
                 HumanMessage(
                     content=[
@@ -96,7 +97,26 @@ def main():
                     ]
                 )
             ],
-            config={"configurable": {"session_id": "1"}},
+            config={"configurable": {"session_id": "abc"}},
+        )
+
+        prompt3 = f"""
+        By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+        Check that each instruction is logical.
+        """
+
+        msg = runnable_with_history.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "text",
+                            "text": prompt3,
+                        },
+                    ]
+                )
+            ],
+            config={"configurable": {"session_id": "abc"}},
         )
 
         return {"bot_inst": msg.content}
@@ -151,9 +171,9 @@ def main():
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images\fridge_lefthandle.jpg"
     # image_path = r"images\housedoor_knob_push.jpg"
-    # image_path = r"images\labdoor_straighthandle_pull.jpg"
     # image_path = r"images\browndoor_knob_pull.jpg"
-    image_path = r"images\bluedoor_knob_push.jpg"
+    image_path = r"images\labdoor_straighthandle_pull.jpg"
+    # image_path = r"images\bluedoor_knob_push.jpg"
     # image_path = r"images\whitetable.jpg"
 
     resize_image(image_path, image_path)
