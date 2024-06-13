@@ -172,8 +172,8 @@ def main():
     # image_path = r"images\fridge_lefthandle.jpg"
     # image_path = r"images\housedoor_knob_push.jpg"
     # image_path = r"images\browndoor_knob_pull.jpg"
-    image_path = r"images\labdoor_straighthandle_pull.jpg"
-    # image_path = r"images\bluedoor_knob_push.jpg"
+    # image_path = r"images\labdoor_straighthandle_pull.jpg"
+    image_path = r"images\bluedoor_knob_push.jpg"
     # image_path = r"images\whitetable.jpg"
 
     resize_image(image_path, image_path)
