@@ -9,6 +9,9 @@ from src.utils.image_util import load_image, resize_image
 def main():
 
     def query(inputs: dict) -> dict:
+
+        model_id = "liuhaotian/llava-v1.6-34b"
+
         # Configure BitsAndBytesConfig based on GPU availability
         if torch.cuda.is_available():
             quantization_config = BitsAndBytesConfig(
@@ -16,8 +19,6 @@ def main():
             )
         else:
             quantization_config = None  # or configure for CPU if necessary
-
-        model_id = "llava-hf/llava-1.5-7b-hf"
 
         # Initialize pipeline based on GPU availability
         if torch.cuda.is_available():
@@ -39,7 +40,7 @@ def main():
         prompt1 = f"""
         Observe the given image and its details.
         Provide a detailed step-by-step guide on how a human would complete the task of: {inputs["task"]}.
-        Link each instruction to an observation in the image in this format: "Observation: Instruction".
+        Link each instruction to an observation in the image in this format: Observation - Instruction.
         """
 
         prompt2 = f"""
@@ -55,7 +56,7 @@ def main():
         user_prompt1 = "USER: <image>\n" + prompt1 + "​\nASSISTANT: "
 
         output1 = pipe(
-            image, prompt=user_prompt1, generate_kwargs={"max_new_tokens": 200}
+            image, prompt=user_prompt1, generate_kwargs={"max_new_tokens": 4096}
         )
 
         user_prompt2 = (
@@ -67,7 +68,7 @@ def main():
         )
 
         output2 = pipe(
-            image, prompt=user_prompt2, generate_kwargs={"max_new_tokens": 200}
+            image, prompt=user_prompt2, generate_kwargs={"max_new_tokens": 4096}
         )
 
         user_prompt3 = (
@@ -79,7 +80,7 @@ def main():
         )
 
         output3 = pipe(
-            image, prompt=user_prompt3, generate_kwargs={"max_new_tokens": 200}
+            image, prompt=user_prompt3, generate_kwargs={"max_new_tokens": 4096}
         )
 
         return {"bot_inst": output3[0]["generated_text"]}
