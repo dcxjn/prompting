@@ -10,7 +10,7 @@ def main():
 
     def query(inputs: dict) -> dict:
 
-        model_id = "liuhaotian/llava-v1.6-34b"
+        model_id = "llava-hf/llava-v1.6-vicuna-13b-hf"
 
         # Configure BitsAndBytesConfig based on GPU availability
         if torch.cuda.is_available():
