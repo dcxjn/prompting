@@ -56,31 +56,23 @@ def main():
         user_prompt1 = "USER: <image>\n" + prompt1 + "​\nASSISTANT: "
 
         output1 = pipe(
-            image, prompt=user_prompt1, generate_kwargs={"max_new_tokens": 4096}
+            image, prompt=user_prompt1, generate_kwargs={"max_new_tokens": 1024}
         )
 
         user_prompt2 = (
-            user_prompt1
-            + output1[0]["generated_text"]
-            + "\nUSER: "
-            + prompt2
-            + "​\nASSISTANT: "
+            output1[0]["generated_text"] + "\nUSER: " + prompt2 + "​\nASSISTANT: "
         )
 
         output2 = pipe(
-            image, prompt=user_prompt2, generate_kwargs={"max_new_tokens": 4096}
+            image, prompt=user_prompt2, generate_kwargs={"max_new_tokens": 1024}
         )
 
         user_prompt3 = (
-            user_prompt2
-            + output2[0]["generated_text"]
-            + "\nUSER: "
-            + prompt3
-            + "​\nASSISTANT: "
+            output2[0]["generated_text"] + "\nUSER: " + prompt3 + "​\nASSISTANT: "
         )
 
         output3 = pipe(
-            image, prompt=user_prompt3, generate_kwargs={"max_new_tokens": 4096}
+            image, prompt=user_prompt3, generate_kwargs={"max_new_tokens": 1024}
         )
 
         return {"bot_inst": output3[0]["generated_text"]}
