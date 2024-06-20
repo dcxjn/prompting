@@ -2,6 +2,8 @@ Observe the given image and its details.
 Provide a detailed step-by-step guide on how a human would complete the task of: open the door. 
 Link each instruction to an observation in the image in this format: Observation - Instruction.
 
+===
+
 Observation - The door is closed and has a handle on the right side.
 Instruction - To open the door, one would need to pull or push the handle in the direction that unlocks it.
 
