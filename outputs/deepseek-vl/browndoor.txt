@@ -1,0 +1,35 @@
+Observe the given image and its details. 
+Provide a detailed step-by-step guide on how a human would complete the task of: open the door. 
+Link each instruction to an observation in the image in this format: Observation - Instruction.
+
+Observation: The door is closed with its handle on the right side.
+Instruction: To open the door, a human would need to grasp the doorknob located on the right side of the door and turn it counterclockwise to unlock the mechanism and pull or push the door open.
+
+===
+
+Imagine you are in control of a robotic arm with the following commands: 1. move_to(x, y)
+2. grab(object)
+3. release(object)
+4. push(object)
+5. pull(object)
+6. rotate(angle)
+Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+
+===
+
+Move to the door: The robotic arm would move_to the coordinates (0, 0), which represents its current position relative to the door.
+Grab the doorknob: Once at the door, the robotic arm would use the grab command on the doorknob located on the right side of the door.
+Release the doorknob: After successfully grabbing the doorknob, the robot would release it using the release command.
+Unlock the mechanism: To open the door, the robotic arm would rotate the doorknob counterclockwise by a small angle (angle = -90 degrees) to unlock the mechanism holding the door closed.
+Pull or push the door open: Depending on the design and functionality of the door, the robotic arm could either pull or push the door open. If the door has a spring mechanism that allows for easy opening with minimal force, the robot might simply pull the door open. However, if the door requires more force to open, the robot would need to apply a pushing motion. In this case, the robot would use the push command in combination with the rotate command to apply the necessary force.
+Close the door: After the door is fully opened, the robotic arm would move back to its original position (coordinates (0, 0)) and then rotate the doorknob clockwise by an angle (angle = 90 degrees) to lock the door in place.
+
+===
+
+By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+Check that each instruction is logical.
+
+===
+
+Observation: The door is closed with its handle on the right side.
+Instruction: To open the door, a human would need to grasp the doorknob located on the right side of the door and turn it counterclockwise to unlock the mechanism and pull or push the door open. This instruction is accurate as it directly references the observation that the door's handle is on the right side.

@@ -1,0 +1,42 @@
+Observe the given image and its details. 
+Provide a detailed step-by-step guide on how a human would complete the task of: open the door. 
+Link each instruction to an observation in the image in this format: Observation - Instruction.
+
+Observation - The door is closed and has a handle on the right side.
+Instruction - To open the door, one would need to pull or push the handle in the direction that unlocks it.
+
+===
+
+Imagine you are in control of a robotic arm with the following commands: 1. move_to(x, y)
+2. grab(object)
+3. release(object)
+4. push(object)
+5. pull(object)
+6. rotate(angle)
+Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+
+===
+
+Given the human instructions, here's a guide on how the robotic arm would complete the task:
+
+Move to the door (x, y coordinates not provided): The robot should navigate to the location of the door using its sensors and navigation system. It will need to approach the door from the side where the handle is located.
+
+Grab the handle: Once at the door, the robot should use its gripper to grasp the handle firmly. This step requires precise positioning and gripping force to ensure that the handle is securely held by the robotic arm.
+
+Open the door: With the handle in hand, the robot can now pull or push the handle in the direction that unlocks the door. Depending on the design of the handle, this action may require either pulling or pushing.
+
+Release the handle: After opening the door, the robot should release the handle back into its original position. This ensures that the door remains unlocked for future access.
+
+If necessary, move through the doorway: If there are any obstacles inside the room, such as shelves or other objects, the robot might need to navigate around them. The robot should be equipped with sensors to detect these obstacles and avoid collisions.
+
+Return to the starting point: Once inside the room, the robot should return to its initial position outside the door using the same commands it used to move to the door. This allows for easy re-entry if needed.
+
+===
+
+By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+Check that each instruction is logical.
+
+===
+
+Observation - The door is closed and has a handle on the right side.
+Instruction - To open the door, one would need to pull or push the handle in the direction that unlocks it. This instruction is logical as pulling or pushing the handle is a common action for opening doors.

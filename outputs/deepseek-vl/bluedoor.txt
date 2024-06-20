@@ -1,0 +1,46 @@
+Observe the given image and its details. 
+Provide a detailed step-by-step guide on how a human would complete the task of: open the door. 
+Link each instruction to an observation in the image in this format: Observation - Instruction.
+
+===
+
+Observation: The door has a doorknob on the right side.
+Instruction: To open the door, grasp the doorknob located on the right side of the door and turn it counterclockwise to unlock the latch and swing the door open.
+
+===
+
+Imagine you are in control of a robotic arm with the following commands: 1. move_to(x, y)
+2. grab(object)
+3. release(object)
+4. push(object)
+5. pull(object)
+6. rotate(angle)
+Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+
+===
+
+To open the door using a robotic arm, follow these steps:
+
+Move_to(x, y): Position the robot at an appropriate distance from the door (x and y coordinates to be determined based on the actual size of the door).
+
+Grab(object): Use the robotic arm's gripper to grasp the doorknob located on the right side of the door.
+
+Release(object): Once the doorknob is securely held by the gripper, release it so that the robotic arm can move freely without obstructing the door.
+
+Push(object): Using the force sensor in the gripper, determine the amount of force required to push the door open. Apply this force while maintaining stability with the other joints of the robotic arm.
+
+Pull(object): As the door begins to swing inward, use the gripper to pull the door closed again if necessary to avoid any obstruction or damage to the door frame.
+
+Rotate(angle): If needed, rotate the robotic arm to align the door with the hinges for smooth operation.
+
+By following these commands, the robotic arm should successfully open and close the door as instructed.
+
+===
+
+By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+Check that each instruction is logical.
+
+===
+
+Observation: The door has a doorknob on the right side.
+Instruction: To open the door, grasp the doorknob located on the right side of the door and turn it counterclockwise to unlock the latch and swing the door open.

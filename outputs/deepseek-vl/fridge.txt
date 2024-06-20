@@ -1,0 +1,51 @@
+Observe the given image and its details. 
+Provide a detailed step-by-step guide on how a human would complete the task of: get an apple. 
+Link each instruction to an observation in the image in this format: Observation - Instruction.
+
+===
+
+Observation: The image shows a stainless steel refrigerator with various stickers and labels on its surface.
+
+Instruction: Since the task is to get an apple, we need to find a place where apples are typically stored in refrigerators. In this case, since there's no visible fruit drawer or shelf labeled for fruits, it suggests that apples might be stored somewhere else in the kitchen. However, without additional context or visual information about other parts of the kitchen, we cannot complete the task of getting an apple based solely on this image.
+
+===
+
+Imagine you are in control of a robotic arm with the following commands: 1. move_to(x, y)
+2. grab(object)
+3. release(object)
+4. push(object)
+5. pull(object)
+6. rotate(angle)
+Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+
+===
+
+Since the task is to get an apple, we need to find a location where apples are typically stored in kitchens. However, without additional context or visual information about other parts of the kitchen, we cannot complete this task using robotic commands alone. The robot would be unable to move to an unseen location and grab an object that isn't visible in the image provided.
+
+===
+
+By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+Check that each instruction is logical.
+
+===
+
+Observation: The image shows a stainless steel refrigerator with various stickers and labels on its surface.
+
+Instruction 1: Move to the location of the apple.
+
+This instruction is not accurate, as there's no visible apple in the image.
+Instruction 2: Grab the apple.
+
+This instruction is not logical, as there's no apple present in the image.
+Instruction 3: Release the apple.
+
+This instruction is not applicable since there's no apple in the image.
+Instruction 4: Push the apple.
+
+This instruction is not logical, as there's no apple present in the image.
+Instruction 5: Pull the apple.
+
+This instruction is not applicable since there's no apple in the image.
+Instruction 6: Rotate the apple.
+
+This instruction is not logical, as there's no apple present in the image.
