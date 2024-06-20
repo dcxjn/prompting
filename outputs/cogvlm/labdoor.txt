@@ -1,0 +1,49 @@
+Observe the given image and its details.
+Provide a detailed step-by-step guide on how a human would complete the task of: open the door.
+Link each instruction to an observation in the image in this format: "Observation: Instruction".
+
+===
+
+Identify the door handle: Look for the lever or handle on the door, which is typically used to open and close the door. In the image, the handle is the silver lever on the right side of the door.
+Apply force: Place your hand on the handle and apply a moderate amount of force, pushing it inwards to open the door.
+Push against the door frame: As the door starts to open, use your other hand or body weight to push against the door frame to help it swing open fully.
+Ensure the door is fully open: Once the door is almost fully open, use your hand to push it open completely, ensuring it's not caught or stuck.
+Enter the room: Once the door is fully open, step into the room and proceed with your intended activity or purpose.
+
+===
+
+Imagine you are in control of a robotic arm with the following commands: 1. move_to(x, y)
+2. grab(object)
+3. release(object)
+4. push(object)
+5. pull(object)
+6. rotate(angle)
+Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+
+===
+
+Certainly! Here's a step-by-step guide for the robot to complete the task of opening the door:
+
+Move to the door: "Move_to(0, 0)": The robot should start at the origin point and move towards the door.
+Grab the door handle: "grab(doorHandle)": The robot should use its gripper to grasp the door handle.
+Apply force to open the door: "push(doorHandle, 0.5)": The robot should apply a force of 0.5 units to the door handle to open the door.
+Push against the door frame: "push(doorFrame, 0.5)": The robot should push against the door frame with a force of 0.5 units to help the door open fully.
+Release the door handle: "release(doorHandle)": The robot should release the door handle.
+Ensure the door is fully open: "pull(doorHandle, 0.5)": The robot should pull the door handle with a force of 0.5 units to ensure the door is fully open.
+Enter the room: "move_to(0, 0)": The robot should move back to the origin point and enter the room.
+This sequence of commands should guide the robot to successfully open the door and enter the room.
+
+===
+
+By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+Check that each instruction is logical.
+
+===
+
+Certainly! Here's the updated guide with accurate references to the image:
+
+Identify the door handle: "Observation: The silver lever on the right side of the door is the door handle."
+Apply force: "Observation: Place your hand on the door handle and apply a moderate amount of force, pushing it inwards to open the door."
+Push against the door frame: "Observation: As the door starts to open, use your other hand or body weight to push against the door frame to help it swing open fully."
+Ensure the door is fully open: "Observation: Once the door is almost fully open, use your hand to push it open completely, ensuring it's not caught or stuck."
+Enter the room: "Observation: Once the door is fully open, step into the room and proceed with your intended activity or purpose."
