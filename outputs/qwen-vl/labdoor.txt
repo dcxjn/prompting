@@ -1,0 +1,24 @@
+=== OUTPUT 1 ===
+
+Observation - Instruction 1: Look for the handle on the door. The handle is located on the right side of the door, as shown in the image. 
+Instruction 2: Grasp the handle firmly. To open the door, you need to hold the handle firmly and apply a force to the door. 
+Instruction 3: Apply a moderate amount of force. Apply a moderate amount of force to the door to open it. Do not apply too much force as it may damage the door or the handle. 
+Instruction 4: Slide the door open. Once you have applied the force, slide the door open slowly. Be careful not to force it open too quickly, as it may cause the door to jam or damage the door and its contents.
+
+=== OUTPUT 2 ===
+
+Observation - Instruction 1: Look for the handle on the door. The handle is located on the right side of the door, as shown in the image. 
+Instruction 2: Grasp the handle firmly. To open the door, you need to hold the handle firmly and apply a force to the door. 
+Instruction 3: Apply a moderate amount of force. Apply a moderate amount of force to the door to open it. Do not apply too much force as it may damage the door or the handle. 
+Instruction 4: Slide the door open. Once you have applied the force, slide the door open slowly. Be careful not to force it open too quickly, as it may cause the door to jam or damage the door and its contents. 
+Observation - Instruction 5: Release the handle. Once the door is open, release the handle to allow the door to remain open. 
+Instruction 6: Rotate the door to the desired angle. The door is not shown with a specific angle, so it is not possible to provide a specific instruction for rotating the door. However, if the door needs to be rotated to a specific angle, the robot would need to be programmed to do so.
+
+==========
+
+Observation - Instruction 1: Look for the handle on the door. The handle is located on the right side of the door, as shown in the image. 
+Instruction 2: Grasp the handle firmly. To open the door, you need to hold the handle firmly and apply a force to the door. 
+Instruction 3: Apply a moderate amount of force. Apply a moderate amount of force to the door to open it. Do not apply too much force as it may damage the door or the handle. 
+Instruction 4: Slide the door open. Once you have applied the force, slide the door open slowly. Be careful not to force it open too quickly, as it may cause the door to jam or damage the door and its contents. 
+Observation - Instruction 5: Release the handle. Once the door is open, release the handle to allow the door to remain open. 
+Instruction 6: Rotate the door to the desired angle. The door is not shown with a specific angle, so it is not possible to provide a specific instruction for rotating the door. However, if the door needs to be rotated to a specific angle, the robot would need to be programmed to do so.
