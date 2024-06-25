@@ -1,0 +1,135 @@
+
+==========
+
+USER: 
+    Observe the given image and its details.
+    Provide a detailed step-by-step guide on how a human would complete the task of: get an apple.
+    Link each instruction to an observation in the image in this format: Observation - Instruction.
+    
+ASSISTANT: Observation - The apple is located on the countertop.
+Instruction - Approach the countertop.
+
+Observation - The countertop is made of wood.
+Instruction - Walk towards the wooden countertop.
+
+Observation - The apple is red in color.
+Instruction - Look for the red apple.
+
+Observation - The apple is round in shape.
+Instruction - Identify the round apple.
+
+Observation - The apple is on the countertop.
+Instruction - Locate the apple on the countertop.
+
+Observation - The apple is on the countertop.
+Instruction - Pick up the apple from the countertop.
+
+Observation - The apple is in your hand.
+Instruction - Hold the apple in your hand.
+
+Observation - The apple is in your hand.
+Instruction - Bring the apple closer to your mouth.
+
+Observation - The apple is in your mouth.
+Instruction - Take a bite of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Enjoy the taste of the apple.
+
+USER: 
+    Imagine you are in control of a robotic arm with the following commands: 
+    1. move_to(x, y)
+    2. grab(object)
+    3. release(object)
+    4. push(object)
+    5. pull(object)
+    6. rotate(angle)
+   Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+    
+ASSISTANT: Observation - The apple is on the countertop.
+Instruction - Move the robotic arm to the countertop.
+
+Observation - The apple is round in shape.
+Instruction - Identify the round apple.
+
+Observation - The apple is on the countertop.
+Instruction - Grab the apple with the robotic arm.
+
+Observation - The apple is in the robotic arm.
+Instruction - Move the robotic arm to your mouth.
+
+Observation - The apple is in your mouth.
+Instruction - Take a bite of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Enjoy the taste of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Release the apple from the robotic arm.
+
+Observation - The apple is on the countertop.
+Instruction - Move the robotic arm back to the countertop.
+
+Observation - The apple is on the countertop.
+Instruction - Grab the apple with the robotic arm.
+
+Observation - The apple is in the robotic arm.
+Instruction - Move the robotic arm to your mouth.
+
+Observation - The apple is in your mouth.
+Instruction - Take a bite of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Enjoy the taste of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Release the apple from the robotic arm.
+
+Observation - The apple is on the countertop.
+Instruction - Move the robotic arm back to the countertop.
+
+USER: 
+    By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+    Check that each instruction is logical.
+    
+ASSISTANT: Observation - The apple is on the countertop.
+Instruction - Move the robotic arm to the countertop.
+
+Observation - The apple is round in shape.
+Instruction - Identify the round apple.
+
+Observation - The apple is on the countertop.
+Instruction - Grab the apple with the robotic arm.
+
+Observation - The apple is in the robotic arm.
+Instruction - Move the robotic arm to your mouth.
+
+Observation - The apple is in your mouth.
+Instruction - Take a bite of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Enjoy the taste of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Release the apple from the robotic arm.
+
+Observation - The apple is on the countertop.
+Instruction - Move the robotic arm back to the countertop.
+
+Observation - The apple is on the countertop.
+Instruction - Grab the apple with the robotic arm.
+
+Observation - The apple is in the robotic arm.
+Instruction - Move the robotic arm to your mouth.
+
+Observation - The apple is in your mouth.
+Instruction - Take a bite of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Enjoy the taste of the apple.
+
+Observation - The apple is in your mouth.
+Instruction - Release the apple from the robotic arm.
+
+Observation - The apple is on the countertop.
+Instruction - Move the robotic arm back to the countertop.

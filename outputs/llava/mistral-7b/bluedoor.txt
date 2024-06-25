@@ -1,0 +1,66 @@
+
+==========
+
+USER: 
+    Observe the given image and its details.
+    Provide a detailed step-by-step guide on how a human would complete the task of: open the door.
+    Link each instruction to an observation in the image in this format: Observation - Instruction.
+    
+ASSISTANT: Sure, I can help you with that. Here's a step-by-step guide on how to open the door in the image:
+
+1. Approach the door: The door is located in the middle of the image.
+
+2. Locate the door handle: The door handle is located on the right side of the door.
+
+3. Turn the door handle: To open the door, you need to turn the door handle.
+
+4. Push the door open: Once the door handle is turned, you can push the door open.
+
+5. Enter the room: After the door is open, you can enter the room.
+
+Observation - Instruction:
+- The door is located in the middle of the image.
+- The door handle is located on the right side of the door.
+- To open the door, you need to turn the door handle.
+- Once the door handle is turned, you can push the door open.
+- After the door is open, you can enter the room. 
+
+USER: 
+    Imagine you are in control of a robotic arm with the following commands: 
+    1. move_to(x, y)
+    2. grab(object)
+    3. release(object)
+    4. push(object)
+    5. pull(object)
+    6. rotate(angle)
+   Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+    
+ASSISTANT: Certainly! Here's a guide on how the robot would complete the task of opening the door using the given commands:
+
+1. Move the robotic arm to the door: The door is located in the middle of the image. The robot can use the move_to command to move its arm to the door.
+
+2. Grab the door handle: The door handle is located on the right side of the door. The robot can use the grab command to grab the door handle.
+
+3. Turn the door handle: To open the door, the robot needs to turn the door handle. The robot can use the rotate command to turn the door handle.
+
+4. Push the door open: Once the door handle is turned, the robot can use the push command to push the door open.
+
+5. Release the door handle: After the door is open, the robot can use the release command to release the door handle.
+
+6. Move the robotic arm away from the door: The robot can use the move_to command to move its arm away from the door.
+
+Observation - Instruction:
+- The door is located in the middle of the image.
+- The door handle is located on the right side of the door.
+- The robot can use the move_to command to move its arm to the door.
+- The robot can use the grab command to grab the door handle.
+- To open the door, the robot needs to turn the door handle. The robot can use the rotate command to turn the door handle.
+- Once the door handle is turned, the robot can use the push command to push the door open.
+- After the door is open, the robot can use the release command to release the door handle.
+- The robot can use the move_to command to move its arm away from the door. 
+
+USER: 
+    By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+    Check that each instruction is logical.
+    
+ASSISTANT: Understood. I will ensure that each instruction is accurate and logical, and that it is based on the observation in the image. 

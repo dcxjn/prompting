@@ -1,0 +1,119 @@
+
+==========
+
+USER: 
+    Observe the given image and its details.
+    Provide a detailed step-by-step guide on how a human would complete the task of: open the door.
+    Link each instruction to an observation in the image in this format: Observation - Instruction.
+    
+ASSISTANT: Observation - The door is a solid blue color with a white frame.
+
+Instruction - Approach the door and use the handle to open it.
+
+Observation - The handle is located on the right side of the door.
+
+Instruction - Once the door is open, you can see the interior of the house.
+
+Observation - The interior of the house is not visible in the image.
+
+USER: 
+    Imagine you are in control of a robotic arm with the following commands: 
+    1. move_to(x, y)
+    2. grab(object)
+    3. release(object)
+    4. push(object)
+    5. pull(object)
+    6. rotate(angle)
+   Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+    
+ASSISTANT: Observation - The door is a solid blue color with a white frame.
+
+Instruction - Approach the door and use the handle to open it.
+
+Instruction - Once the door is open, you can see the interior of the house.
+
+Instruction - Use the robotic arm to move_to(x, y) the interior of the house.
+
+Instruction - Grab an object inside the house.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to push(object) the object out of the house.
+
+Instruction - Close the door.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face away from the door.
+
+Instruction - Use the robotic arm to release(object) the object.
+
+Instruction - Use the robotic arm to move_to(x, y) the object back to its original position.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to pull(object) the object into the house.
+
+Instruction - Close the door.
+
+Observation - The interior of the house is not visible in the image.
+
+USER: 
+    By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+    Check that each instruction is logical.
+    
+ASSISTANT: Observation - The door is a solid blue color with a white frame.
+
+Instruction - Approach the door and use the handle to open it.
+
+Instruction - Once the door is open, you can see the interior of the house.
+
+Instruction - Use the robotic arm to move_to(x, y) the interior of the house.
+
+Instruction - Grab an object inside the house.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to push(object) the object out of the house.
+
+Instruction - Close the door.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face away from the door.
+
+Instruction - Use the robotic arm to release(object) the object.
+
+Instruction - Use the robotic arm to move_to(x, y) the object back to its original position.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to pull(object) the object into the house.
+
+Instruction - Close the door.
+
+Observation - The interior of the house is not visible in the image.
+
+Instruction - Use the robotic arm to move_to(x, y) the object back to its original position.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to push(object) the object out of the house.
+
+Instruction - Close the door.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face away from the door.
+
+Instruction - Use the robotic arm to release(object) the object.
+
+Instruction - Use the robotic arm to move_to(x, y) the object back to its original position.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to pull(object) the object into the house.
+
+Instruction - Close the door.
+
+Instruction - Use the robotic arm to rotate(angle) the object to face the door.
+
+Instruction - Use the robotic arm to push(object) the object out of the house.
+
+Instruction - Close the door.
+
+Observation - The interior of the house is not visible in the image.

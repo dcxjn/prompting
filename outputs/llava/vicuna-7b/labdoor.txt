@@ -1,0 +1,94 @@
+
+==========
+
+USER: 
+    Observe the given image and its details.
+    Provide a detailed step-by-step guide on how a human would complete the task of: open the door.
+    Link each instruction to an observation in the image in this format: Observation - Instruction.
+    
+ASSISTANT: Observation - The door is currently closed.
+Instruction - To open the door, you would need to find the handle or lever that is used to open the door.
+
+Observation - The handle is located on the right side of the door.
+Instruction - To open the door, you would need to grasp the handle and pull it towards you.
+
+Observation - The door has a window on the left side.
+Instruction - Before opening the door, you might want to check if there are any signs or indications that the door is locked or if there are any security measures in place.
+
+Observation - There are no visible signs or indications that the door is locked or there are any security measures in place.
+Instruction - With the handle in hand, you can now open the door by pulling it towards you.
+
+Observation - The door is now open.
+Instruction - Once the door is open, you can proceed into the room or area beyond.
+
+USER: 
+    Imagine you are in control of a robotic arm with the following commands: 
+    1. move_to(x, y)
+    2. grab(object)
+    3. release(object)
+    4. push(object)
+    5. pull(object)
+    6. rotate(angle)
+   Given the human instructions you have generated, provide a guide on how the robot would complete the task.
+    
+ASSISTANT: Observation - The door is currently closed.
+Instruction - To open the door, you would need to find the handle or lever that is used to open the door.
+
+Observation - The handle is located on the right side of the door.
+Instruction - To open the door, you would need to program the robotic arm to move towards the handle and grab it.
+
+Observation - The door has a window on the left side.
+Instruction - Before opening the door, you might want to check if there are any signs or indications that the door is locked or if there are any security measures in place.
+
+Observation - There are no visible signs or indications that the door is locked or there are any security measures in place.
+Instruction - With the handle in hand, you can now program the robotic arm to move the handle towards the open position.
+
+Observation - The door is now open.
+Instruction - Once the door is open, you can program the robotic arm to release the handle.
+
+Observation - The door is now open.
+Instruction - With the door open, you can program the robotic arm to move the object you want to move into the room or area beyond.
+
+Observation - The door is now open.
+Instruction - Once the object is in the desired location, you can program the robotic arm to release the object.
+
+Observation - The door is now open.
+Instruction - With the door open, you can program the robotic arm to rotate the object to the desired angle.
+
+Observation - The door is now open.
+Instruction - Once the object is rotated to the desired angle, you can program the robotic arm to push or pull the object as needed.
+
+Please note that these instructions are based on the given human instructions and the observations made in the image. The actual commands and actions required for a robotic arm would depend on the specific capabilities and programming of the robotic arm.
+
+USER: 
+    By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
+    Check that each instruction is logical.
+    
+ASSISTANT: Observation - The door is currently closed.
+Instruction - To open the door, you would need to find the handle or lever that is used to open the door.
+
+Observation - The handle is located on the right side of the door.
+Instruction - To open the door, you would need to program the robotic arm to move towards the handle and grab it.
+
+Observation - The door has a window on the left side.
+Instruction - Before opening the door, you might want to check if there are any signs or indications that the door is locked or if there are any security measures in place.
+
+Observation - There are no visible signs or indications that the door is locked or there are any security measures in place.
+Instruction - With the handle in hand, you can now program the robotic arm to move the handle towards the open position.
+
+Observation - The door is now open.
+Instruction - Once the door is open, you can program the robotic arm to release the handle.
+
+Observation - The door is now open.
+Instruction - With the door open, you can program the robotic arm to move the object you want to move into the room or area beyond.
+
+Observation - The door is now open.
+Instruction - Once the object is in the desired location, you can program the robotic arm to release the object.
+
+Observation - The door is now open.
+Instruction - With the door open, you can program the robotic arm to rotate the object to the desired angle.
+
+Observation - The door is now open.
+Instruction - Once the object is rotated to the desired angle, you can program the robotic arm to push or pull the object as needed.
+
+Please note that these instructions are based on the given human instructions and the observations made in the image. The actual commands and actions required for a robotic arm would depend on the specific capabilities and programming of the robotic arm.
