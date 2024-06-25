@@ -1,11 +1,30 @@
 === OUTPUT 1 ===
 
-Observation - Instruction 1: Stand in front of the door. Instruction 2: Place your hand on the door handle. Instruction 3: Apply pressure to the handle while turning it clockwise. Instruction 4: Continue turning the handle until it is fully open.
+Observation - Instruction 1: Stand in front of the door. 
+Instruction 2: Place your hand on the door handle. 
+Instruction 3: Apply pressure to the handle while turning it clockwise. 
+Instruction 4: Continue turning the handle until it is fully open.
 
 === OUTPUT 2 ===
 
-Observation - Instruction 1: The door is closed. Instruction 2: The robotic arm moves towards the door. Instruction 3: The robotic arm grasps the door handle. Instruction 4: The robotic arm rotates the door handle counterclockwise. Instruction 5: The robotic arm releases the door handle. Instruction 6: The robotic arm pushes the door open. Instruction 7: The robotic arm rotates the door handle clockwise. Instruction 8: The robotic arm releases the door handle. Instruction 9: The robotic arm moves away from the door.
+Observation - Instruction 1: The door is closed. 
+Instruction 2: The robotic arm moves towards the door. 
+Instruction 3: The robotic arm grasps the door handle. 
+Instruction 4: The robotic arm rotates the door handle counterclockwise. 
+Instruction 5: The robotic arm releases the door handle. 
+Instruction 6: The robotic arm pushes the door open. 
+Instruction 7: The robotic arm rotates the door handle clockwise. 
+Instruction 8: The robotic arm releases the door handle. 
+Instruction 9: The robotic arm moves away from the door.
 
 ==========
 
-Observation - Instruction 1: The door is closed. Instruction 2: The robotic arm moves towards the door. Instruction 3: The robotic arm grasps the door handle. Instruction 4: The robotic arm rotates the door handle counterclockwise. Instruction 5: The robotic arm releases the door handle. Instruction 6: The robotic arm pushes the door open. Instruction 7: The robotic arm rotates the door handle clockwise. Instruction 8: The robotic arm releases the door handle. Instruction 9: The robotic arm moves away from the door.
+Observation - Instruction 1: The door is closed. 
+Instruction 2: The robotic arm moves towards the door. 
+Instruction 3: The robotic arm grasps the door handle. 
+Instruction 4: The robotic arm rotates the door handle counterclockwise. 
+Instruction 5: The robotic arm releases the door handle. 
+Instruction 6: The robotic arm pushes the door open. 
+Instruction 7: The robotic arm rotates the door handle clockwise. 
+Instruction 8: The robotic arm releases the door handle. 
+Instruction 9: The robotic arm moves away from the door.
