@@ -58,8 +58,7 @@ def main():
             "llava-hf/llava-v1.6-vicuna-13b-hf",
             do_sample=False,
             quantization_config=quantization_config,
-            # device_map="cuda"
-            device=0,
+            device_map="cuda"
         )
 
         # Load image
