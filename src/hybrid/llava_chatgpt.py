@@ -19,6 +19,11 @@ from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
 def main():
+
+    print(torch.__version__)  # Print PyTorch version
+    print(torch.cuda.is_available())  # Should return True
+    print(torch.cuda.device_count())  # Should return the number of GPUs
+    print(torch.cuda.get_device_name(0))  # Should print the name of the GPU    
     
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -53,7 +58,8 @@ def main():
             "llava-hf/llava-v1.6-vicuna-13b-hf",
             do_sample=False,
             quantization_config=quantization_config,
-            device_map="cuda"
+            # device_map="cuda"
+            device=0,
         )
 
         # Load image
