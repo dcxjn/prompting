@@ -20,10 +20,10 @@ from src.utils.memory_history_util import InMemoryHistory
 
 def main():
 
-    print(torch.__version__)  # Print PyTorch version
-    print(torch.cuda.is_available())  # Should return True
-    print(torch.cuda.device_count())  # Should return the number of GPUs
-    print(torch.cuda.get_device_name(0))  # Should print the name of the GPU    
+    # print(torch.__version__)  # Print PyTorch version
+    # print(torch.cuda.is_available())  # Should return True
+    # print(torch.cuda.device_count())  # Should return the number of GPUs
+    # print(torch.cuda.get_device_name(0))  # Should print the name of the GPU    
     
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
