@@ -76,7 +76,7 @@ def main():
 
         output = processor.decode(outputs[0], skip_special_tokens=True)
 
-        info_dict.append("image_features", output)
+        info_dict["image_features"] = output
 
         return info_dict
     
