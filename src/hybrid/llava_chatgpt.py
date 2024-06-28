@@ -27,7 +27,7 @@ def main():
     
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    set_debug(True)
+    set_debug(False)
 
     # Intialize the store for session IDs
     store = {}
@@ -42,8 +42,7 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-        # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-7b-hf")
-        # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-mistral-7b-hf")
+        # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
         processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
 
         quantization_config = BitsAndBytesConfig(
@@ -53,10 +52,10 @@ def main():
         )
 
         model = LlavaNextForConditionalGeneration.from_pretrained(
-            # "llava-hf/llava-v1.6-vicuna-7b-hf",
-            # "llava-hf/llava-v1.6-mistral-7b-hf",
+            # "llava-hf/llava-v1.6-34b-hf",
             "llava-hf/llava-v1.6-vicuna-13b-hf",
-            do_sample=False,
+            do_sample=True,
+            temperature=0.2,
             quantization_config=quantization_config,
             device_map="cuda"
         )
@@ -65,9 +64,9 @@ def main():
         image = Image.open(info_dict["image_path"])
 
         prompt = f"""
-        Observe the given image and its details.
-        Extract details relevant to the task of: {info_dict["task"]}.
-        Give your observations in the format of numbered points.
+        Given the task: {info_dict["task"]}, extract all RELEVANT details in the image.
+        Be as specific as possible.
+        Give your observations in the format of bullet points.
         """
 
         prompt = "<image>" + f"USER: {prompt}\nASSISTANT:"
@@ -83,7 +82,7 @@ def main():
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
-        llm = ChatOpenAI(temperature=0, model="gpt-4", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0.2, model="gpt-4", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,
@@ -96,7 +95,7 @@ def main():
         Link each instruction to an observation in the image in this format: "Observation: Instruction"
         """
 
-        runnable_with_history.invoke(
+        msg = runnable_with_history.invoke(
             [
                 HumanMessage(
                     content=[
@@ -110,12 +109,14 @@ def main():
             config={"configurable": {"session_id": "abc"}},
         )
 
+        info_dict["human_inst"] = msg.content
+
         prompt2 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the human instructions you have generated, provide a guide on how the robot would complete the task.
         """
 
-        runnable_with_history.invoke(
+        msg = runnable_with_history.invoke(
             [
                 HumanMessage(
                     content=[
@@ -129,9 +130,19 @@ def main():
             config={"configurable": {"session_id": "abc"}},
         )
 
+        info_dict["bot_inst"] = msg.content
+
+        # prompt3 = f"""
+        # By referencing an observation in the image, ensure each instruction is accurate. 
+        # Do not make assumptions.
+        # Give precise instructions; avoid giving options.
+        # Check that each instruction is logical.
+        # """
+
         prompt3 = f"""
-        By referencing an observation in the image, ensure each instruction is accurate. Do not make assumptions.
-        Check that each instruction is logical.
+        Check that each instruction is logical and ensure they are accurate by referencing the image features again.
+        Do not make assumptions.
+        Give precise instructions; avoid giving 'or' options.
         """
 
         msg = runnable_with_history.invoke(
@@ -148,7 +159,7 @@ def main():
             config={"configurable": {"session_id": "abc"}},
         )
 
-        info_dict["bot_inst"] = msg.content
+        info_dict["refined_bot_inst"] = msg.content
 
         return info_dict
 
@@ -158,7 +169,7 @@ def main():
         llm = ChatOpenAI(temperature=0, model="gpt-4", max_tokens=4096)
 
         prompt = f"""
-        Instructions: {info_dict["bot_inst"]}
+        Instructions: {info_dict["refined_bot_inst"]}
         Given the instructions, provide the code commands to execute the task and concise comments only.
         """
 
@@ -191,13 +202,13 @@ def main():
 
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images/fridge_lefthandle.jpg"
-    # image_path = r"images/housedoor_knob_push.jpg"
-    image_path = r"images/browndoor_knob_pull.jpg"
+    image_path = r"images/housedoor_knob_push.jpg"
+    # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
 
-    resize_image(image_path, image_path)
+    # resize_image(image_path, image_path)
 
     # Define the task to be performed
     task = input("Enter the task to be performed: ")
@@ -214,10 +225,16 @@ def main():
     info_dict = get_instructions(info_dict)
     info_dict = get_code_summary(info_dict)
 
-    print("\n=== CODE SUMMARY ===\n")
-    print(info_dict["code_summary"])
     print("\n=== IMAGE FEATURES ===\n")
     print(info_dict["image_features"])
+    print("\n=== OUTPUT1 ===")
+    print(info_dict["human_inst"])
+    print("\n=== OUTPUT2 ===")
+    print(info_dict["bot_inst"])
+    print("\n=== OUTPUT3 ===")
+    print(info_dict["refined_bot_inst"])
+    print("\n=== CODE SUMMARY ===\n")
+    print(info_dict["code_summary"])
 
     # Clear the session IDs
     store = {}
