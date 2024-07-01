@@ -19,11 +19,6 @@ from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
 def main():
-
-    # print(torch.__version__)  # Print PyTorch version
-    # print(torch.cuda.is_available())  # Should return True
-    # print(torch.cuda.device_count())  # Should return the number of GPUs
-    # print(torch.cuda.get_device_name(0))  # Should print the name of the GPU    
     
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -64,8 +59,8 @@ def main():
         image = Image.open(info_dict["image_path"])
 
         prompt = f"""
-        Given the task: {info_dict["task"]}, extract all RELEVANT details in the image.
-        Be as specific as possible.
+        Given the task: {info_dict["task"]}, describe all RELEVANT features in the image.
+        Be as detailed and specific as possible. Are these features applicable to the task?
         Give your observations in the format of bullet points.
         """
 
@@ -82,7 +77,7 @@ def main():
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
-        llm = ChatOpenAI(temperature=0.2, model="gpt-4", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,
@@ -93,6 +88,7 @@ def main():
         You are given the image features: {info_dict["image_features"]}
         Provide a detailed step-by-step guide on how a human would complete the task of: {info_dict["task"]}
         Link each instruction to an observation in the image in this format: "Observation: Instruction"
+        Ensure that the CORRECT observation is linked to the instruction.
         """
 
         msg = runnable_with_history.invoke(
@@ -132,17 +128,9 @@ def main():
 
         info_dict["bot_inst"] = msg.content
 
-        # prompt3 = f"""
-        # By referencing an observation in the image, ensure each instruction is accurate. 
-        # Do not make assumptions.
-        # Give precise instructions; avoid giving options.
-        # Check that each instruction is logical.
-        # """
-
         prompt3 = f"""
-        Check that each instruction is logical and ensure they are accurate by referencing the image features again.
-        Do not make assumptions.
-        Give precise instructions; avoid giving 'or' options.
+        Reflect on the instructions produced. Are they accurate and LOGICAL given the image features?
+        Give precise instructions, avoid giving 'or' options.
         """
 
         msg = runnable_with_history.invoke(
@@ -166,7 +154,7 @@ def main():
     def get_code_summary(info_dict: dict) -> dict:
         """Get the code commands given the instructions."""
 
-        llm = ChatOpenAI(temperature=0, model="gpt-4", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
 
         prompt = f"""
         Instructions: {info_dict["refined_bot_inst"]}
@@ -201,8 +189,8 @@ def main():
     """
 
     # image_path = input("Enter the path of the image: ")
-    # image_path = r"images/fridge_lefthandle.jpg"
-    image_path = r"images/housedoor_knob_push.jpg"
+    image_path = r"images/fridge_lefthandle.jpg"
+    # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
@@ -227,11 +215,11 @@ def main():
 
     print("\n=== IMAGE FEATURES ===\n")
     print(info_dict["image_features"])
-    print("\n=== OUTPUT1 ===")
+    print("\n=== HUMAN INSTRUCTIONS ===\n")
     print(info_dict["human_inst"])
-    print("\n=== OUTPUT2 ===")
+    print("\n=== ROBOT INSTRUCTIONS ===\n")
     print(info_dict["bot_inst"])
-    print("\n=== OUTPUT3 ===")
+    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n")
     print(info_dict["refined_bot_inst"])
     print("\n=== CODE SUMMARY ===\n")
     print(info_dict["code_summary"])
