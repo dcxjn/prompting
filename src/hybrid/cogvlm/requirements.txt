@@ -6,3 +6,4 @@ Pillow==10.4.0
 python-dotenv==1.0.1
 torch==2.1.0
 transformers==4.35.0
+xformers==0.0.22.post7
