@@ -1,4 +1,5 @@
 import os
+
 from dotenv import load_dotenv
 
 from transformers import AutoModelForCausalLM, LlamaTokenizer
@@ -37,7 +38,7 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-         # Set tokenizer
+        # Set tokenizer
         tokenizer = LlamaTokenizer.from_pretrained('lmsys/vicuna-7b-v1.5')
 
         # Load model
@@ -65,13 +66,12 @@ def main():
             'attention_mask': input['attention_mask'].unsqueeze(0).to('cuda'),
             'images': [[input['images'][0].to('cuda').to(torch.bfloat16)]],
         }
-        gen_kwargs = {"max_length": 2048, "do_sample": False}
+        gen_kwargs = {"max_length": 2048, "do_sample": True, "temperature": 0.2}
 
         with torch.no_grad():
             output = model.generate(**input, **gen_kwargs)
             output = output[:, input['input_ids'].shape[1]:]
-
-        output = tokenizer.decode(output[0])
+            output = tokenizer.decode(output[0])
 
         info_dict["image_features"] = output
 
