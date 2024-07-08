@@ -86,9 +86,9 @@ def main():
         image = Image.open(info_dict["image_path"])
 
         prompt = f"""
-        Given the task: {info_dict["task"]}, describe all RELEVANT features in the image.
-        Be as detailed and specific as possible. Are these features applicable to the task?
-        Give your observations in the format of bullet points.
+        Given the image, answer the questions.
+        Give a reason for each of your answers.
+        Questions: {info_dict["relevant_qns"]}
         """
 
         prompt = "<image>" + f"USER: {prompt}\nASSISTANT:"
@@ -111,9 +111,33 @@ def main():
             get_by_session_id,
         )
 
+        prompt = f"""
+        Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
+        Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
+        Generate the relevant questions in bullet point form.
+        """
+
+        msg = runnable_with_history.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "text",
+                            "text": prompt,
+                        },
+                    ]
+                )
+            ],
+            config={"configurable": {"session_id": "abc"}},
+        )
+
+        info_dict["relevant_qns"] = msg.content
+
+        info_dict = get_image_features(info_dict)
+
         prompt1 = f"""
         You are given the image features: {info_dict["image_features"]}
-        Provide a detailed step-by-step guide on how a human would complete the task of: {info_dict["task"]}
+        Provide a detailed step-by-step guide on how the robot would complete the task.
         Link each instruction to an observation in the image in this format: "Observation: Instruction"
         Ensure that the CORRECT observation is linked to the instruction.
         """
@@ -132,71 +156,7 @@ def main():
             config={"configurable": {"session_id": "abc"}},
         )
 
-        info_dict["human_inst"] = msg.content
-
-        prompt2 = f"""
-        Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
-        Given the human instructions you have generated, provide a guide on how the robot would complete the task.
-        """
-
-        msg = runnable_with_history.invoke(
-            [
-                HumanMessage(
-                    content=[
-                        {
-                            "type": "text",
-                            "text": prompt2,
-                        },
-                    ]
-                )
-            ],
-            config={"configurable": {"session_id": "abc"}},
-        )
-
         info_dict["bot_inst"] = msg.content
-
-        prompt3 = f"""
-        Reflect on the instructions. 
-        Are there any steps that are uncertain or ambiguous?
-        If so, list down the questions you may have.
-        """
-
-        msg = runnable_with_history.invoke(
-            [
-                HumanMessage(
-                    content=[
-                        {
-                            "type": "text",
-                            "text": prompt3,
-                        },
-                    ]
-                )
-            ],
-            config={"configurable": {"session_id": "abc"}},
-        )
-
-        info_dict["reflection_qns"] = msg.content
-
-        prompt4 = f"""
-        Given the image features that were initially provided, answer those questions to the best of your ability. 
-        Then, refine and finalize the instructions.
-        """
-
-        msg = runnable_with_history.invoke(
-            [
-                HumanMessage(
-                    content=[
-                        {
-                            "type": "text",
-                            "text": prompt4,
-                        },
-                    ]
-                )
-            ],
-            config={"configurable": {"session_id": "abc"}},
-        )
-
-        info_dict["refined_bot_inst"] = msg.content
 
         return info_dict
 
@@ -206,7 +166,7 @@ def main():
         llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
 
         prompt = f"""
-        Instructions: {info_dict["refined_bot_inst"]}
+        Instructions: {info_dict["bot_inst"]}
         Given the instructions, provide the code commands to execute the task and concise comments only.
         """
 
@@ -238,11 +198,11 @@ def main():
     """
 
     # image_path = input("Enter the path of the image: ")
-    image_path = r"images/fridge_lefthandle.jpg"
+    # image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
-    # image_path = r"images/bluedoor_knob_push.jpg"
+    image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
 
     # resize_image(image_path, image_path)
@@ -260,17 +220,14 @@ def main():
     start = time.time()
 
     # Run the chain
-    info_dict = get_image_features(info_dict)
     info_dict = get_instructions(info_dict)
     info_dict = get_code_summary(info_dict)
 
     end = time.time()
 
+    print("\n=== RELEVANT QUESTIONS ===\n\n", info_dict["relevant_qns"])
     print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
-    print("\n=== HUMAN INSTRUCTIONS ===\n\n", info_dict["human_inst"])
     print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
-    print("\n=== REFLECTION QUESTIONS ===\n\n", info_dict["reflection_qns"])
-    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n\n", info_dict["refined_bot_inst"])
     print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
     print("\n===\n\nTIME TAKEN (s): ", (end - start))
 
