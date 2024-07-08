@@ -111,7 +111,7 @@ def main():
             get_by_session_id,
         )
 
-        prompt = f"""
+        prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
         Generate the relevant questions in bullet point form.
@@ -123,7 +123,7 @@ def main():
                     content=[
                         {
                             "type": "text",
-                            "text": prompt,
+                            "text": prompt1,
                         },
                     ]
                 )
@@ -135,7 +135,7 @@ def main():
 
         info_dict = get_image_features(info_dict)
 
-        prompt1 = f"""
+        prompt2 = f"""
         You are given the image features: {info_dict["image_features"]}
         Provide a detailed step-by-step guide on how the robot would complete the task.
         Link each instruction to an observation in the image in this format: "Observation: Instruction"
@@ -148,7 +148,7 @@ def main():
                     content=[
                         {
                             "type": "text",
-                            "text": prompt1,
+                            "text": prompt2,
                         },
                     ]
                 )
