@@ -1,8 +1,10 @@
 import os
 
+import time
+
 from dotenv import load_dotenv
 
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 from langchain.globals import set_debug
 
@@ -38,16 +40,34 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
+        quant_config = 4
+
         # Set tokenizer
         tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
 
-        # Load model
-        model = AutoModelForCausalLM.from_pretrained(
-            "THUDM/cogvlm2-llama3-chat-19B",
-            torch_dtype=torch.bfloat16,
-            low_cpu_mem_usage=True,
-            trust_remote_code=True
-        ).to('cuda').eval()
+        if quant_config == 4:
+            model = AutoModelForCausalLM.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B",
+                torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_4bit=True),
+                low_cpu_mem_usage=True,
+                trust_remote_code=True
+            ).eval()
+        elif quant_config == 8:
+            model = AutoModelForCausalLM.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B",
+                torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                low_cpu_mem_usage=True,
+                trust_remote_code=True
+            ).eval()
+        else:
+            model = AutoModelForCausalLM.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B",
+                torch_dtype=torch.bfloat16,
+                low_cpu_mem_usage=True,
+                trust_remote_code=True
+            ).eval().to('cuda')
 
         # Load image
         image = Image.open(info_dict['image_path']).convert('RGB')
@@ -197,11 +217,11 @@ def main():
     """
 
     # image_path = input("Enter the path of the image: ")
-    # image_path = r"images/fridge_lefthandle.jpg"
+    image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
-    image_path = r"images/bluedoor_knob_push.jpg"
+    # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
 
     # resize_image(image_path, image_path)
@@ -216,21 +236,21 @@ def main():
         "bot_commands": bot_commands,
     }
 
+    start = time.time()
+
     # Run the chain
     info_dict = get_image_features(info_dict)
     info_dict = get_instructions(info_dict)
     info_dict = get_code_summary(info_dict)
 
-    print("\n=== IMAGE FEATURES ===\n")
-    print(info_dict["image_features"])
-    print("\n=== HUMAN INSTRUCTIONS ===\n")
-    print(info_dict["human_inst"])
-    print("\n=== ROBOT INSTRUCTIONS ===\n")
-    print(info_dict["bot_inst"])
-    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n")
-    print(info_dict["refined_bot_inst"])
-    print("\n=== CODE SUMMARY ===\n")
-    print(info_dict["code_summary"])
+    end = time.time()
+
+    print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
+    print("\n=== HUMAN INSTRUCTIONS ===\n\n", info_dict["human_inst"])
+    print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
+    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n\n", info_dict["refined_bot_inst"])
+    print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
+    print("\n===\n\nTIME TAKEN (s): ", (end - start))
 
     # Clear the session IDs
     store = {}

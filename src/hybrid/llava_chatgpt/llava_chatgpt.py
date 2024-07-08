@@ -1,5 +1,7 @@
 import os
 
+import time
+
 from dotenv import load_dotenv
 
 from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, BitsAndBytesConfig
@@ -38,23 +40,40 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
+        quant_config = 4
+
         # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
         processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
 
-        quantization_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
-        )
-
-        model = LlavaNextForConditionalGeneration.from_pretrained(
-            # "llava-hf/llava-v1.6-34b-hf",
-            "llava-hf/llava-v1.6-vicuna-13b-hf",
-            do_sample=True,
-            temperature=0.2,
-            quantization_config=quantization_config,
-            device_map="cuda"
-        )
+        if quant_config == 4:
+            model = LlavaNextForConditionalGeneration.from_pretrained(
+                # "llava-hf/llava-v1.6-34b-hf",
+                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                torch_dtype=torch.bfloat16,
+                do_sample=True,
+                temperature=0.2,
+                quantization_config=BitsAndBytesConfig(load_in_4bit=True),
+                device_map="cuda"
+            )
+        elif quant_config == 8:
+            model = LlavaNextForConditionalGeneration.from_pretrained(
+                # "llava-hf/llava-v1.6-34b-hf",
+                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                torch_dtype=torch.bfloat16,
+                do_sample=True,
+                temperature=0.2,
+                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                device_map="cuda"
+            )
+        else:
+            model = LlavaNextForConditionalGeneration.from_pretrained(
+                # "llava-hf/llava-v1.6-34b-hf",
+                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                torch_dtype=torch.bfloat16,
+                do_sample=True,
+                temperature=0.2,
+                device_map="cuda"
+            )
 
         # Load image
         image = Image.open(info_dict["image_path"])
@@ -209,21 +228,21 @@ def main():
         "bot_commands": bot_commands,
     }
 
+    start = time.time()
+
     # Run the chain
     info_dict = get_image_features(info_dict)
     info_dict = get_instructions(info_dict)
     info_dict = get_code_summary(info_dict)
 
-    print("\n=== IMAGE FEATURES ===\n")
-    print(info_dict["image_features"])
-    print("\n=== HUMAN INSTRUCTIONS ===\n")
-    print(info_dict["human_inst"])
-    print("\n=== ROBOT INSTRUCTIONS ===\n")
-    print(info_dict["bot_inst"])
-    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n")
-    print(info_dict["refined_bot_inst"])
-    print("\n=== CODE SUMMARY ===\n")
-    print(info_dict["code_summary"])
+    end = time.time()
+
+    print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
+    print("\n=== HUMAN INSTRUCTIONS ===\n\n", info_dict["human_inst"])
+    print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
+    print("\n=== REFINED ROBOT INSTRUCTIONS ===\n\n", info_dict["refined_bot_inst"])
+    print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
+    print("\n===\n\nTIME TAKEN (s): ", (end - start))
 
     # Clear the session IDs
     store = {}
