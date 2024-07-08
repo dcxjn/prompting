@@ -4,7 +4,11 @@ import time
 
 from dotenv import load_dotenv
 
-from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, BitsAndBytesConfig
+from transformers import (
+    LlavaNextProcessor,
+    LlavaNextForConditionalGeneration,
+    BitsAndBytesConfig,
+)
 
 from langchain.globals import set_debug
 
@@ -21,8 +25,9 @@ from PIL import Image
 from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
+
 def main():
-    
+
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     set_debug(False)
@@ -43,7 +48,9 @@ def main():
         quant_config = 4
 
         # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
-        processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
+        processor = LlavaNextProcessor.from_pretrained(
+            "llava-hf/llava-v1.6-vicuna-13b-hf"
+        )
 
         if quant_config == 4:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -53,7 +60,7 @@ def main():
                 do_sample=True,
                 temperature=0.2,
                 quantization_config=BitsAndBytesConfig(load_in_4bit=True),
-                device_map="cuda"
+                device_map="cuda",
             )
         elif quant_config == 8:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -63,7 +70,7 @@ def main():
                 do_sample=True,
                 temperature=0.2,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                device_map="cuda"
+                device_map="cuda",
             )
         else:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -72,7 +79,7 @@ def main():
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
                 temperature=0.2,
-                device_map="cuda"
+                device_map="cuda",
             )
 
         # Load image
@@ -93,7 +100,7 @@ def main():
         info_dict["image_features"] = output
 
         return info_dict
-    
+
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
@@ -149,8 +156,9 @@ def main():
         info_dict["bot_inst"] = msg.content
 
         prompt3 = f"""
-        Reflect on the instructions produced. Are they accurate and LOGICAL given the image features?
-        Give precise instructions, avoid giving 'or' options.
+        Reflect on the instructions. 
+        Are there any steps that are uncertain or ambiguous?
+        If so, list down the questions you may have.
         """
 
         msg = runnable_with_history.invoke(
@@ -160,6 +168,27 @@ def main():
                         {
                             "type": "text",
                             "text": prompt3,
+                        },
+                    ]
+                )
+            ],
+            config={"configurable": {"session_id": "abc"}},
+        )
+
+        info_dict["reflection_qns"] = msg.content
+
+        prompt4 = f"""
+        Given the image features that were initially provided, answer those questions to the best of your ability. 
+        Then, refine and finalize the instructions.
+        """
+
+        msg = runnable_with_history.invoke(
+            [
+                HumanMessage(
+                    content=[
+                        {
+                            "type": "text",
+                            "text": prompt4,
                         },
                     ]
                 )
@@ -240,6 +269,7 @@ def main():
     print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
     print("\n=== HUMAN INSTRUCTIONS ===\n\n", info_dict["human_inst"])
     print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
+    print("\n=== REFLECTION QUESTIONS ===\n\n", info_dict["reflection_qns"])
     print("\n=== REFINED ROBOT INSTRUCTIONS ===\n\n", info_dict["refined_bot_inst"])
     print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
     print("\n===\n\nTIME TAKEN (s): ", (end - start))
@@ -250,4 +280,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
