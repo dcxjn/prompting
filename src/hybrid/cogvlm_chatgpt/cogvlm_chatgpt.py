@@ -180,7 +180,7 @@ def main():
         llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
 
         prompt = f"""
-        Instructions: {info_dict["refined_bot_inst"]}
+        Instructions: {info_dict["bot_inst"]}
         Given the instructions, provide the code commands to execute the task and concise comments only.
         """
 
@@ -212,9 +212,9 @@ def main():
     """
 
     # image_path = input("Enter the path of the image: ")
-    image_path = r"images/fridge_lefthandle.jpg"
+    # image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
-    # image_path = r"images/browndoor_knob_pull.jpg"
+    image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
