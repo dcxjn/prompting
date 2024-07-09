@@ -80,8 +80,9 @@ def main():
         image = Image.open(info_dict["image_path"]).convert("RGB")
 
         prompt = f"""
-        Given the image, answer the questions.
-        Give a reason for each of your answers.
+        Using the given image, answer all of the questions to the best of your ability.
+        You are positioned facing the image, so give your answers with reference to your position.
+        Ensure that the answers are accurate.
         Questions: {info_dict["relevant_qns"]}
         """
 
@@ -128,7 +129,7 @@ def main():
         prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
-        Generate the relevant questions in bullet point form.
+        Generate the relevant questions in a numbered list.
         """
 
         msg = runnable_with_history.invoke(
@@ -150,10 +151,9 @@ def main():
         info_dict = get_image_features(info_dict)
 
         prompt2 = f"""
-        You are given the image features: {info_dict["image_features"]}
-        Provide a detailed step-by-step guide on how the robot would complete the task.
-        Link each instruction to an observation in the image in this format: "Observation: Instruction"
-        Ensure that the CORRECT observation is linked to the instruction.
+        Here are the answers to the questions you have generated earlier: {info_dict["image_features"]}
+        Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
+        Give a reason for each instruction.
         """
 
         msg = runnable_with_history.invoke(
@@ -214,9 +214,9 @@ def main():
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
-    image_path = r"images/browndoor_knob_pull.jpg"
+    # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
-    # image_path = r"images/bluedoor_knob_push.jpg"
+    image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
 
     # resize_image(image_path, image_path)

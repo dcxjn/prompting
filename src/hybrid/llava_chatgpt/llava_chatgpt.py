@@ -86,16 +86,17 @@ def main():
         image = Image.open(info_dict["image_path"])
 
         prompt = f"""
-        Given the image, answer the questions.
-        Give a reason for each of your answers.
+        Using the given image, answer all of the questions to the best of your ability.
+        Ensure that the answers are accurate.
         Questions: {info_dict["relevant_qns"]}
         """
 
-        prompt = "<image>" + f"USER: {prompt}\nASSISTANT:"
+        prompt = "<image>\n" + f"USER: {prompt}\nASSISTANT:"
         input = processor(prompt, image, return_tensors="pt").to("cuda")
         outputs = model.generate(**input, max_new_tokens=2048)
 
-        output = processor.decode(outputs[0], skip_special_tokens=True)
+        # output = processor.decode(outputs[0], skip_special_tokens=True)
+        output = processor.decode(outputs[0][2:], skip_special_tokens=True)
 
         info_dict["image_features"] = output
 
@@ -114,7 +115,7 @@ def main():
         prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
-        Generate the relevant questions in bullet point form.
+        Generate the relevant questions in a numbered list.
         """
 
         msg = runnable_with_history.invoke(
@@ -136,10 +137,9 @@ def main():
         info_dict = get_image_features(info_dict)
 
         prompt2 = f"""
-        You are given the image features: {info_dict["image_features"]}
-        Provide a detailed step-by-step guide on how the robot would complete the task.
-        Link each instruction to an observation in the image in this format: "Observation: Instruction"
-        Ensure that the CORRECT observation is linked to the instruction.
+        Here are the answers to the questions you have generated earlier: {info_dict["image_features"]}
+        Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
+        Give a reason for each instruction.
         """
 
         msg = runnable_with_history.invoke(
