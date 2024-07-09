@@ -80,10 +80,9 @@ def main():
         image = Image.open(info_dict["image_path"]).convert("RGB")
 
         prompt = f"""
-        Using the given image, answer all of the questions to the best of your ability.
-        You are positioned facing the image, so give your answers with reference to your position.
-        Ensure that the answers are accurate.
-        Questions: {info_dict["relevant_qns"]}
+        You are a robotic arm positioned facing the image.
+        Examine the given image and answer the following questions.
+        {info_dict["relevant_qns"]}
         """
 
         input_by_model = model.build_conversation_input_ids(
@@ -91,7 +90,7 @@ def main():
             query=prompt,
             history=None,
             images=[image],
-            template_version="chat",
+            # template_version="chat",
         )
         input = {
             "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
@@ -128,9 +127,10 @@ def main():
 
         prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
-        Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
-        Be precise in the phrasing of a questions, as someone will answer these questions with reference to an image.
-        Generate the relevant questions in a numbered list.
+        Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
+        Generate questions to obtain the desired information.
+        Ensure the questions are specific and cannot be misinterpreted.
+        Give the relevant questions in a numbered list.
         """
 
         msg = runnable_with_history.invoke(
@@ -154,7 +154,7 @@ def main():
         prompt2 = f"""
         Here are the answers to the questions you have generated earlier: {info_dict["image_features"]}
         Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
-        Give a reason for each instruction.
+        Give a reason for each step.
         """
 
         msg = runnable_with_history.invoke(
@@ -218,7 +218,6 @@ def main():
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
-    # image_path = r"images/whitetable.jpg"
 
     # resize_image(image_path, image_path)
 
@@ -240,11 +239,11 @@ def main():
 
     end = time.time()
 
-    print("\n=== RELEVANT QUESTIONS ===\n\n", info_dict["relevant_qns"])
-    print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
-    print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
-    print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
-    print("\n===\n\nTIME TAKEN (s): ", (end - start))
+    print("\n=== RELEVANT QUESTIONS ===\n\n" + info_dict["relevant_qns"])
+    print("\n=== IMAGE FEATURES ===\n\n" + info_dict["image_features"])
+    print("\n=== ROBOT INSTRUCTIONS ===\n\n" + info_dict["bot_inst"])
+    print("\n=== CODE SUMMARY ===\n\n" + info_dict["code_summary"])
+    print("\n===\n\nTIME TAKEN (s):", (end - start))
 
     # Clear the session IDs
     store = {}
