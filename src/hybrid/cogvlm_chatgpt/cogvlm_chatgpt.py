@@ -129,6 +129,7 @@ def main():
         prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
+        Be precise in the phrasing of a questions, as someone will answer these questions with reference to an image.
         Generate the relevant questions in a numbered list.
         """
 
@@ -213,10 +214,10 @@ def main():
 
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images/fridge_lefthandle.jpg"
-    # image_path = r"images/housedoor_knob_push.jpg"
+    image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
-    image_path = r"images/bluedoor_knob_push.jpg"
+    # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/whitetable.jpg"
 
     # resize_image(image_path, image_path)
