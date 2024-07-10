@@ -1,0 +1,128 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some very specific questions to help gather the information needed to open the door using the robotic arm:
+
+1. Where is the door located? (Please give the exact x and y coordinates of the door handle.)
+2. What kind of handle does the door have? (Is it a knob, lever, or something else?)
+3. Which direction does the door open? (Does it open towards you or away from you?)
+4. How much force is needed to turn the handle? (Is it easy to turn or does it need a lot of strength?)
+5. What is the angle needed to rotate the handle to open the door? (How many degrees should the handle be turned?)
+6. Is the door locked? (Do we need to unlock it first?)
+7. If the door is locked, where is the key located? (Please give the exact x and y coordinates of the key.)
+8. How much force is needed to push or pull the door open? (Is it heavy or light?)
+9. Are there any obstacles in the way of the door? (Is there anything blocking the door that needs to be moved first?)
+10. What is the height of the door handle from the ground? (How high up is the handle?)
+
+These questions will help ensure that the robotic arm has all the necessary details to successfully open the door.
+
+=== IMAGE FEATURES ===
+
+To answer these questions, let's examine the image step by step:
+
+1. **Location of the Door Handle:** The door handle is located at the center of the door, approximately 2.5 feet from the ground. The x-coordinate would be 2.5 feet, and the y-coordinate would be at the top of the door, which is around 6 feet from the ground.
+
+2. **Type of Handle:** The door has a lever-style handle, which is typically used for right-handed doors.
+
+3. **Direction of Opening:** The door opens towards the viewer, so the answer would be "towards you."
+
+4. **Force Required:** The door appears to be a standard-sized door, and based on its design, it likely requires a moderate amount of force to open. It's neither extremely heavy nor light, so a reasonable amount of strength would be needed.
+
+5. **Angle to Rotate Handle:** The lever handle is centrally located, so the angle to rotate it to open the door would be 180 degrees, as it's a full rotation from the closed position.
+
+6. **Locked:** From the image, it's not possible to definitively determine if the door is locked, but given the presence of a keyhole and the design of the door, it is plausible that it could be.
+
+7. **Location of Key:** The keyhole is located at the bottom of the door, approximately 3.5 feet from the ground. The x-coordinate would be 3.5 feet, and the y-coordinate would be at the bottom of the door, which is around 4 feet from the ground.
+
+8. **Obstacles:** There doesn't appear to be any immediate obstacles in the way of the door from the perspective of the image.
+
+9. **Height of Handle:** The handle is approximately 4 feet high from the ground.
+
+10. **Additional Information:** The door is set within a brick wall, and there are two wall-mounted lights on either side of the door. The ground appears to be made of concrete or a similar material.
+
+=== ROBOT INSTRUCTIONS ===
+
+Based on the provided information and the available robot commands, here is a detailed step-by-step guide on how the robot would open the door:
+
+1. **Move to the Door Handle:**
+   ```python
+   move_to(2.5, 4)
+   ```
+   **Reason:** The door handle is located at the center of the door, approximately 4 feet from the ground. The robot needs to position itself correctly to interact with the handle.
+
+2. **Rotate the Handle:**
+   ```python
+   rotate(180)
+   ```
+   **Reason:** The lever-style handle needs to be rotated 180 degrees to open the door. This step ensures the handle is turned to the correct position.
+
+3. **Push the Door:**
+   ```python
+   push(door)
+   ```
+   **Reason:** Since the door opens towards the viewer, the robot needs to push the door after rotating the handle to open it fully.
+
+4. **Check if the Door is Locked:**
+   ```python
+   # This step assumes the robot has a way to detect if the door is locked.
+   if door_is_locked():
+       move_to(3.5, 4)
+       grab(key)
+       move_to(2.5, 3.5)
+       insert_key_and_turn()
+   ```
+   **Reason:** If the door is locked, the robot needs to locate the key, grab it, and use it to unlock the door. The keyhole is approximately 3.5 feet from the ground.
+
+5. **Move Back to the Handle (if needed):**
+   ```python
+   move_to(2.5, 4)
+   rotate(180)
+   push(door)
+   ```
+   **Reason:** After unlocking the door, the robot needs to return to the handle, rotate it again, and push the door to open it.
+
+6. **Ensure the Door is Fully Open:**
+   ```python
+   move_to(2.5, 4)
+   push(door)
+   ```
+   **Reason:** To ensure the door is fully open, the robot may need to push it further. This step ensures the door is completely open and not partially ajar.
+
+By following these steps, the robot can successfully open the door. Each step is designed to address a specific part of the task, ensuring the door is unlocked (if necessary), the handle is rotated, and the door is pushed open.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the door handle
+move_to(2.5, 4)
+
+# Rotate the handle
+rotate(180)
+
+# Push the door
+push(door)
+
+# Check if the door is locked
+if door_is_locked():
+    # Move to the key location
+    move_to(3.5, 4)
+    # Grab the key
+    grab(key)
+    # Move to the keyhole
+    move_to(2.5, 3.5)
+    # Insert key and turn
+    insert_key_and_turn()
+    # Move back to the handle
+    move_to(2.5, 4)
+    # Rotate the handle again
+    rotate(180)
+    # Push the door again
+    push(door)
+
+# Ensure the door is fully open
+move_to(2.5, 4)
+push(door)
+```
+
+===
+
+TIME TAKEN (s): 92.45562934875488

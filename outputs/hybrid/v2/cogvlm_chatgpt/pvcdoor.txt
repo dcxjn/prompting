@@ -1,0 +1,152 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some questions to help gather the information needed to open the door using the robotic arm:
+
+1. Where is the door located? (Please give the exact x and y coordinates.)
+2. What type of handle does the door have? (Is it a knob, lever, or something else?)
+3. Where is the handle located on the door? (Please give the exact x and y coordinates.)
+4. How much force is needed to turn or push the handle?
+5. In which direction does the door open? (Does it open towards you or away from you?)
+6. Is the door locked? (If yes, how do you unlock it?)
+7. What angle does the handle need to be turned to open the door?
+8. How wide does the door need to be opened?
+9. Are there any obstacles in the way of the door or the robotic arm?
+10. Is there a specific sequence of actions required to open the door?
+
+These questions will help ensure that all necessary details are known to successfully complete the task of opening the door with the robotic arm.
+
+=== IMAGE FEATURES ===
+
+Certainly! Let's break down each question step by step:
+
+1. Where is the door located?
+   - The door is located at the center of the image, aligned with the vertical axis (x-axis).
+
+2. What type of handle does the door have?
+   - The door has a lever handle, which is typically used for interior doors and can be turned to open or close the door.
+
+3. Where is the handle located on the door?
+   - The handle is located on the right side of the door when facing it, approximately halfway down from the top edge.
+
+4. How much force is needed to turn or push the handle?
+   - The image does not provide specific information on the amount of force required to turn or push the handle. However, typically, a moderate force would be needed to operate a lever handle.
+
+5. In which direction does the door open?
+   - The door opens towards the viewer, as evidenced by the visible hinge and the way the door is positioned.
+
+6. Is the door locked?
+   - The image does not show any lock or keyhole on the visible side of the door, so it is likely not locked from this perspective.
+
+7. What angle does the handle need to be turned to open the door?
+   - The handle needs to be turned to the left to open the door, as it is currently closed and the handle is on the right side.
+
+8. How wide does the door need to be opened?
+   - The door appears to be a standard width, so it would need to be opened to its full width to allow passage.
+
+9. Are there any obstacles in the way of the door or the robotic arm?
+   - The image shows no visible obstacles in the immediate vicinity of the door or the robotic arm.
+
+10. Is there a specific sequence of actions required to open the door?
+   - Based on the image, the door can be opened by simply turning the lever handle to the left. No specific sequence is required.
+
+=== ROBOT INSTRUCTIONS ===
+
+Certainly! Here is a detailed step-by-step guide on how the robotic arm would complete the task of opening the door, along with the reasons for each step:
+
+1. **Move to the handle's location:**
+   ```python
+   move_to(x_handle, y_handle)
+   ```
+   - **Reason:** The robotic arm needs to position itself at the location of the handle to interact with it. Based on the information, the handle is on the right side of the door, approximately halfway down from the top edge.
+
+2. **Grab the handle:**
+   ```python
+   grab(handle)
+   ```
+   - **Reason:** The robotic arm needs to securely hold the lever handle to turn it.
+
+3. **Rotate the handle to the left:**
+   ```python
+   rotate(-90)  # Assuming -90 degrees is the angle needed to turn the handle to the left
+   ```
+   - **Reason:** The handle needs to be turned to the left to open the door. The exact angle might vary, but typically a 90-degree turn is sufficient for a lever handle.
+
+4. **Release the handle:**
+   ```python
+   release(handle)
+   ```
+   - **Reason:** After turning the handle, the robotic arm needs to release it to proceed with opening the door.
+
+5. **Move to the edge of the door:**
+   ```python
+   move_to(x_edge, y_edge)  # Coordinates of the edge of the door
+   ```
+   - **Reason:** The robotic arm needs to position itself at the edge of the door to push it open.
+
+6. **Push the door open:**
+   ```python
+   push(door)
+   ```
+   - **Reason:** The door opens towards the viewer, so the robotic arm needs to push it to open it fully.
+
+7. **Move back to avoid obstacles:**
+   ```python
+   move_to(safe_x, safe_y)  # Coordinates to move the arm away from the door's path
+   ```
+   - **Reason:** After pushing the door open, the robotic arm should move back to avoid any potential obstacles and ensure the door can open fully without interference.
+
+Here's the complete sequence in code format:
+
+```python
+# Step 1: Move to the handle's location
+move_to(x_handle, y_handle)
+
+# Step 2: Grab the handle
+grab(handle)
+
+# Step 3: Rotate the handle to the left
+rotate(-90)  # Assuming -90 degrees is the angle needed to turn the handle to the left
+
+# Step 4: Release the handle
+release(handle)
+
+# Step 5: Move to the edge of the door
+move_to(x_edge, y_edge)  # Coordinates of the edge of the door
+
+# Step 6: Push the door open
+push(door)
+
+# Step 7: Move back to avoid obstacles
+move_to(safe_x, safe_y)  # Coordinates to move the arm away from the door's path
+```
+
+This sequence ensures that the robotic arm can successfully open the door by following a logical and safe series of actions.
+
+=== CODE SUMMARY ===
+
+```python
+# Step 1: Move to the handle's location
+move_to(x_handle, y_handle)
+
+# Step 2: Grab the handle
+grab(handle)
+
+# Step 3: Rotate the handle to the left
+rotate(-90)  # Turn handle to the left
+
+# Step 4: Release the handle
+release(handle)
+
+# Step 5: Move to the edge of the door
+move_to(x_edge, y_edge)  # Position at door edge
+
+# Step 6: Push the door open
+push(door)
+
+# Step 7: Move back to avoid obstacles
+move_to(safe_x, safe_y)  # Move arm away from door's path
+```
+
+===
+
+TIME TAKEN (s): 91.12639927864075
