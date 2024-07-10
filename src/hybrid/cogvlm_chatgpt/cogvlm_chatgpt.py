@@ -214,6 +214,7 @@ def main():
 
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images/fridge_lefthandle.jpg"
+    # image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
@@ -222,7 +223,7 @@ def main():
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
-    image_path = r"images/pvcdoor_sliding.jpg"
+    image_path = r"images/pvcdoor_folding.jpg"
 
     # resize_image(image_path, image_path)
 
