@@ -102,7 +102,7 @@ def main():
             "max_new_tokens": 2048,
             "pad_token_id": 128002,
             "do_sample": True,
-            "temperature": 0.2,
+            "temperature": 0.4,
         }
 
         with torch.no_grad():
@@ -129,7 +129,7 @@ def main():
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
         Generate questions to obtain the desired information.
-        Ensure the questions are specific and cannot be misinterpreted.
+        Be extremely specific in your phrasing, ensuring that the questions are understandable by a child.
         Give the relevant questions in a numbered list.
         """
 

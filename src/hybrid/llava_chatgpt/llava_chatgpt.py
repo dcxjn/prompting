@@ -58,7 +58,7 @@ def main():
                 "llava-hf/llava-v1.6-vicuna-13b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
-                temperature=0.2,
+                temperature=0.4,
                 quantization_config=BitsAndBytesConfig(load_in_4bit=True),
                 device_map="cuda",
             )
@@ -86,17 +86,16 @@ def main():
         image = Image.open(info_dict["image_path"])
 
         prompt = f"""
-        Using the given image, answer all of the questions to the best of your ability.
-        Ensure that the answers are accurate.
-        Questions: {info_dict["relevant_qns"]}
+        You are a robotic arm positioned facing the image.
+        Examine the given image and answer the following questions.
+        {info_dict["relevant_qns"]}
         """
 
         prompt = "<image>\n" + f"USER: {prompt}\nASSISTANT:"
         input = processor(prompt, image, return_tensors="pt").to("cuda")
         outputs = model.generate(**input, max_new_tokens=2048)
 
-        # output = processor.decode(outputs[0], skip_special_tokens=True)
-        output = processor.decode(outputs[0][2:], skip_special_tokens=True)
+        output = processor.decode(outputs[0], skip_special_tokens=True)
 
         info_dict["image_features"] = output
 
@@ -114,8 +113,10 @@ def main():
 
         prompt1 = f"""
         Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
-        Given the task of: {info_dict["task"]}, think of all the relevant information that is required to complete the task.
-        Generate the relevant questions in a numbered list.
+        Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
+        Generate questions to obtain the desired information.
+        Be extremely specific in your phrasing, ensuring that the questions are understandable by a child.
+        Give the relevant questions in a numbered list.
         """
 
         msg = runnable_with_history.invoke(
@@ -199,11 +200,10 @@ def main():
 
     # image_path = input("Enter the path of the image: ")
     # image_path = r"images/fridge_lefthandle.jpg"
-    # image_path = r"images/housedoor_knob_push.jpg"
+    image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
-    image_path = r"images/bluedoor_knob_push.jpg"
-    # image_path = r"images/whitetable.jpg"
+    # image_path = r"images/bluedoor_knob_push.jpg"
 
     # resize_image(image_path, image_path)
 
