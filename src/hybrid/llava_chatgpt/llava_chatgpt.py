@@ -68,7 +68,7 @@ def main():
                 "llava-hf/llava-v1.6-vicuna-13b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
-                temperature=0.2,
+                temperature=0.4,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),
                 device_map="cuda",
             )
@@ -78,7 +78,7 @@ def main():
                 "llava-hf/llava-v1.6-vicuna-13b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
-                temperature=0.2,
+                temperature=0.4,
                 device_map="cuda",
             )
 
@@ -140,6 +140,7 @@ def main():
         prompt2 = f"""
         Here are the answers to the questions you have generated earlier: {info_dict["image_features"]}
         Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
+        Note that the robot is in the position of the 'viewer'.
         Give a reason for each instruction.
         """
 
@@ -208,8 +209,8 @@ def main():
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_straighthandle_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
-    image_path = r"images/pinkdoor_knob_pull.jpg"
-    # image_path = r"images/pvcdoor_folding.jpg"
+    # image_path = r"images/pinkdoor_knob_pull.jpg"
+    image_path = r"images/pvcdoor_folding.jpg"
 
     # resize_image(image_path, image_path)
 
