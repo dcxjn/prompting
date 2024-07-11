@@ -47,7 +47,9 @@ def main():
 
         quant_config = 4
 
-        processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
+        processor = LlavaNextProcessor.from_pretrained(
+            "llava-hf/llava-v1.6-vicuna-13b-hf"
+        )
 
         if quant_config == 4:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -194,7 +196,6 @@ def main():
     """
 
     # [DOORS]
-    # image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
@@ -208,7 +209,8 @@ def main():
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
-    image_path = r"images/fridge_lefthandle.jpg"
+    image_path = r"images/threat_detection.jpg"
+    # image_path = r"images/fridge_lefthandle.jpg"
 
     # resize_image(image_path, image_path)
 

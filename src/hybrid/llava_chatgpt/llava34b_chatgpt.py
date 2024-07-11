@@ -46,7 +46,7 @@ def main():
         """Get the image features."""
 
         quant_config = 4
-        
+
         processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
 
         if quant_config == 4:
@@ -82,10 +82,16 @@ def main():
         system_prompt = "You are a robotic arm positioned facing the image. Examine the given image and answer the following questions."
         user_prompt = f"""{info_dict["relevant_qns"]}"""
 
-        prompt = "<|im_start|>system\n" + system_prompt + "<|im_end|><|im_start|>user\n<image>\n" + user_prompt + "<|im_end|><|im_start|>assistant\n"
+        prompt = (
+            "<|im_start|>system\n"
+            + system_prompt
+            + "<|im_end|><|im_start|>user\n<image>\n"
+            + user_prompt
+            + "<|im_end|><|im_start|>assistant\n"
+        )
 
         input = processor(prompt, image, return_tensors="pt").to("cuda")
-        input['input_ids'][input['input_ids'] == 64003] = 64000 # temp solution
+        input["input_ids"][input["input_ids"] == 64003] = 64000  # temp solution
         outputs = model.generate(**input, max_new_tokens=2048)
 
         output = processor.decode(outputs[0], skip_special_tokens=True)
@@ -195,7 +201,6 @@ def main():
     # image_path = input("Enter the path of the image: ")
 
     # [DOORS]
-    # image_path = r"images/fridge_lefthandle.jpg"
     # image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"

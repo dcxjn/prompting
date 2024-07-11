@@ -213,8 +213,7 @@ def main():
         6. rotate(angle)
     """
 
-     # [DOORS]
-    # image_path = r"images/fridge_lefthandle.jpg"
+    # [DOORS]
     # image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
