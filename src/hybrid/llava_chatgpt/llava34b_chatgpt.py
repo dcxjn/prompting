@@ -47,11 +47,11 @@ def main():
 
         quant_config = 4
         
-        processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
+        processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
 
         if quant_config == 4:
             model = LlavaNextForConditionalGeneration.from_pretrained(
-                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                "llava-hf/llava-v1.6-34b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
                 temperature=0.4,
@@ -60,7 +60,7 @@ def main():
             )
         elif quant_config == 8:
             model = LlavaNextForConditionalGeneration.from_pretrained(
-                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                "llava-hf/llava-v1.6-34b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
                 temperature=0.4,
@@ -69,7 +69,7 @@ def main():
             )
         else:
             model = LlavaNextForConditionalGeneration.from_pretrained(
-                "llava-hf/llava-v1.6-vicuna-13b-hf",
+                "llava-hf/llava-v1.6-34b-hf",
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
                 temperature=0.4,
@@ -79,13 +79,11 @@ def main():
         # Load image
         image = Image.open(info_dict["image_path"])
 
-        prompt = f"""
-        You are a robotic arm positioned facing the image.
-        Examine the given image and answer the following questions.
-        {info_dict["relevant_qns"]}
-        """
+        system_prompt = "You are a robotic arm positioned facing the image. Examine the given image and answer the following questions."
+        user_prompt = f"""{info_dict["relevant_qns"]}"""
 
-        prompt = "<image>\n" + f"USER: {prompt}\nASSISTANT:"
+        prompt = "<|im_start|>system\n" + system_prompt + "<|im_end|><|im_start|>user\n<image>\n" + user_prompt + "<|im_end|><|im_start|>assistant\n"
+
         input = processor(prompt, image, return_tensors="pt").to("cuda")
         outputs = model.generate(**input, max_new_tokens=2048)
 
