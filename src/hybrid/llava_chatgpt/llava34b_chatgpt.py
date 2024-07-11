@@ -61,7 +61,7 @@ def main():
         elif quant_config == 8:
             model = LlavaNextForConditionalGeneration.from_pretrained(
                 "llava-hf/llava-v1.6-34b-hf",
-                torch_dtype=torch.bfloat16,
+                torch_dtype=torch.float16,
                 do_sample=True,
                 temperature=0.4,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),

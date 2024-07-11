@@ -45,7 +45,7 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-        quant_config = 4
+        quant_config = 8
 
         processor = LlavaNextProcessor.from_pretrained(
             "llava-hf/llava-v1.6-vicuna-13b-hf"
@@ -63,7 +63,7 @@ def main():
         elif quant_config == 8:
             model = LlavaNextForConditionalGeneration.from_pretrained(
                 "llava-hf/llava-v1.6-vicuna-13b-hf",
-                torch_dtype=torch.bfloat16,
+                torch_dtype=torch.float16,
                 do_sample=True,
                 temperature=0.4,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),
