@@ -85,6 +85,7 @@ def main():
         prompt = "<|im_start|>system\n" + system_prompt + "<|im_end|><|im_start|>user\n<image>\n" + user_prompt + "<|im_end|><|im_start|>assistant\n"
 
         input = processor(prompt, image, return_tensors="pt").to("cuda")
+        input['input_ids'][input['input_ids'] == 64003] = 64000 # temp solution
         outputs = model.generate(**input, max_new_tokens=2048)
 
         output = processor.decode(outputs[0], skip_special_tokens=True)
