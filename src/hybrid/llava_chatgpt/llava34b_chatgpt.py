@@ -2,6 +2,8 @@ import os
 
 import time
 
+import re
+
 from dotenv import load_dotenv
 
 from transformers import (
@@ -95,8 +97,11 @@ def main():
         outputs = model.generate(**input, max_new_tokens=2048)
 
         output = processor.decode(outputs[0], skip_special_tokens=True)
+        match = re.search(r"assistant\s*\n(.*)", output, re.DOTALL)
+        if match:
+            response = match.group(1).strip()
 
-        info_dict["image_features"] = output
+        info_dict["image_features"] = response
 
         return info_dict
 
@@ -206,7 +211,7 @@ def main():
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/glassdoor_sliding.jpg"
-    # image_path = r"images/housedoor_knob_push.jpg"
+    image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
@@ -214,7 +219,7 @@ def main():
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
-    image_path = r"images/fridge_lefthandle.jpg"
+    # image_path = r"images/fridge_lefthandle.jpg"
 
     # resize_image(image_path, image_path)
 
@@ -236,11 +241,11 @@ def main():
 
     end = time.time()
 
-    print("\n=== RELEVANT QUESTIONS ===\n\n", info_dict["relevant_qns"])
-    print("\n=== IMAGE FEATURES ===\n\n", info_dict["image_features"])
-    print("\n=== ROBOT INSTRUCTIONS ===\n\n", info_dict["bot_inst"])
-    print("\n=== CODE SUMMARY ===\n\n", info_dict["code_summary"])
-    print("\n===\n\nTIME TAKEN (s): ", (end - start))
+    print("\n=== RELEVANT QUESTIONS ===\n\n" + info_dict["relevant_qns"])
+    print("\n=== IMAGE FEATURES ===\n\n" + info_dict["image_features"])
+    print("\n=== ROBOT INSTRUCTIONS ===\n\n" + info_dict["bot_inst"])
+    print("\n=== CODE SUMMARY ===\n\n" + info_dict["code_summary"])
+    print("\n===\n\nTIME TAKEN (s):", (end - start))
 
     # Clear the session IDs
     store = {}
