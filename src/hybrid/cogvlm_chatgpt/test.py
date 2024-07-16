@@ -41,7 +41,7 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-        quant_config = 8
+        quant_config = 4
 
         # Set tokenizer
         tokenizer = AutoTokenizer.from_pretrained(
@@ -79,7 +79,10 @@ def main():
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
 
-        prompt = f"""
+        # Set chat history
+        history = []
+
+        prompt1 = f"""
         You are a robotic arm positioned facing the image.
         Examine the given image and answer the following questions.
         {info_dict["relevant_qns"]}
@@ -87,16 +90,49 @@ def main():
 
         input_by_model = model.build_conversation_input_ids(
             tokenizer,
-            query=prompt,
-            history=None,
+            query=prompt1,
+            history=history,
             images=[image],
-            template_version="vqa",
+            template_version="chat",
         )
         input = {
             "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
             "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
             "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
             "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
+        }
+        gen_kwargs = {
+            "max_new_tokens": 2048,
+            "pad_token_id": 128002,
+            "do_sample": True,
+            "temperature": 0.4,
+        }
+
+        with torch.no_grad():
+            output = model.generate(**input, **gen_kwargs)
+            output = output[:, input["input_ids"].shape[1] :]
+            response = tokenizer.decode(output[0])
+            response = response.split("<|end_of_text|>")[0]
+
+        history.append((prompt1, response))
+
+        prompt2 = f"""
+        By referencing an observation in the image, ensure each answer is accurate. Do not make assumptions.
+        Check that each answer is logical.
+        """
+
+        input_by_model = model.build_conversation_input_ids(
+            tokenizer,
+            query=prompt2,
+            history=history,
+            images=None,
+            template_version="chat",
+        )
+        input = {
+            "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
+            "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
+            "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
+            "images": None,
         }
         gen_kwargs = {
             "max_new_tokens": 2048,
