@@ -208,13 +208,13 @@ def main():
     # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
-    image_path = r"images/metaldoor_lever_pull.jpg"
+    # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
     # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
-    # image_path = r"images/threat_detection.jpg"
+    image_path = r"images/threat_detection.jpg"
     # image_path = r"images/fridge_lefthandle.jpg"
 
     # resize_image(image_path, image_path)

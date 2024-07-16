@@ -1,0 +1,106 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some very specific questions to help gather the information needed to get the items required for writing:
+
+1. What are the names of the items needed for writing?
+2. Where is the pen located? (Please give the exact spot or coordinates)
+3. Where is the paper located? (Please give the exact spot or coordinates)
+4. Is there an eraser needed? If yes, where is it located? (Please give the exact spot or coordinates)
+5. Are there any other items needed for writing? If yes, what are they and where are they located? (Please give the exact spot or coordinates)
+6. Are the items in a place where the robotic arm can easily reach them?
+7. Are there any obstacles that the robotic arm needs to avoid while getting the items?
+8. Should the robotic arm grab or push any of the items to get them?
+9. Should the robotic arm rotate to a specific angle to reach any of the items?
+10. Where should the robotic arm place the items after getting them?
+
+These questions will help ensure that the robotic arm has all the information it needs to complete the task of getting the items required for writing.
+
+=== IMAGE FEATURES ===
+
+1. The items needed for writing are a pen, a notebook, and an eraser.
+2. The pen is located towards the bottom left corner of the image, with the cap off.
+3. The notebook is located in the top left corner of the image.
+4. Yes, an eraser is needed. It is located towards the bottom right corner of the image.
+5. No other items are needed for writing, as indicated by the specific questions provided.
+6. Yes, the items are in a place where the robotic arm can easily reach them.
+7. No obstacles are visible in the image that the robotic arm needs to avoid while getting the items.
+8. The robotic arm should grab the pen, notebook, and eraser.
+9. No specific angle rotation is needed to reach the items.
+10. The robotic arm should place the items in a designated area or container for writing materials.
+
+=== ROBOT INSTRUCTIONS ===
+
+Sure! Here is a detailed step-by-step guide for the robotic arm to complete the task of getting the items required for writing, along with reasons for each instruction:
+
+1. **move_to(bottom_left_x, bottom_left_y)**
+   - **Reason:** Move the robotic arm to the location of the pen, which is in the bottom left corner of the image.
+
+2. **grab(pen)**
+   - **Reason:** Grab the pen to secure it for transport.
+
+3. **move_to(designated_area_x, designated_area_y)**
+   - **Reason:** Move the robotic arm to the designated area or container for writing materials.
+
+4. **release(pen)**
+   - **Reason:** Release the pen in the designated area for writing materials.
+
+5. **move_to(top_left_x, top_left_y)**
+   - **Reason:** Move the robotic arm to the location of the notebook, which is in the top left corner of the image.
+
+6. **grab(notebook)**
+   - **Reason:** Grab the notebook to secure it for transport.
+
+7. **move_to(designated_area_x, designated_area_y)**
+   - **Reason:** Move the robotic arm to the designated area or container for writing materials.
+
+8. **release(notebook)**
+   - **Reason:** Release the notebook in the designated area for writing materials.
+
+9. **move_to(bottom_right_x, bottom_right_y)**
+   - **Reason:** Move the robotic arm to the location of the eraser, which is in the bottom right corner of the image.
+
+10. **grab(eraser)**
+    - **Reason:** Grab the eraser to secure it for transport.
+
+11. **move_to(designated_area_x, designated_area_y)**
+    - **Reason:** Move the robotic arm to the designated area or container for writing materials.
+
+12. **release(eraser)**
+    - **Reason:** Release the eraser in the designated area for writing materials.
+
+By following these steps, the robotic arm will successfully gather the pen, notebook, and eraser and place them in the designated area for writing materials.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to pen location
+move_to(bottom_left_x, bottom_left_y)
+# Grab the pen
+grab(pen)
+# Move to designated area
+move_to(designated_area_x, designated_area_y)
+# Release the pen
+release(pen)
+
+# Move to notebook location
+move_to(top_left_x, top_left_y)
+# Grab the notebook
+grab(notebook)
+# Move to designated area
+move_to(designated_area_x, designated_area_y)
+# Release the notebook
+release(notebook)
+
+# Move to eraser location
+move_to(bottom_right_x, bottom_right_y)
+# Grab the eraser
+grab(eraser)
+# Move to designated area
+move_to(designated_area_x, designated_area_y)
+# Release the eraser
+release(eraser)
+```
+
+===
+
+TIME TAKEN (s): 58.446107149124146
