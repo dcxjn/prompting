@@ -4,8 +4,6 @@ import time
 
 from dotenv import load_dotenv
 
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-
 from langchain.globals import set_debug
 
 from langchain_core.chat_history import BaseChatMessageHistory
@@ -14,11 +12,8 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 from langchain_openai import ChatOpenAI
 
-import torch
+from gradio_client import Client, file
 
-from PIL import Image
-
-from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
 
@@ -41,81 +36,31 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-        quant_config = 8
+        prompt = f"""
+        You are a robotic arm positioned facing the image.
+        Examine the given image and answer the following questions.
+        {info_dict["relevant_qns"]}
+        
+        """
 
-        # Set tokenizer
-        tokenizer = AutoTokenizer.from_pretrained(
-            "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+        client = Client("THUDM/CogVLM-CogAgent")
+        result = client.predict(
+            input_text=prompt,
+            temperature=0,
+            image_prompt=file(info_dict["image_path"]),
+            result_previous=[],
+            hidden_image="Hello!!",
+            is_english=True,
+            api_name="/post",
         )
 
-        if quant_config == 4:
-            model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B",
-                torch_dtype=torch.bfloat16,
-                quantization_config=BitsAndBytesConfig(load_in_4bit=True),
-                low_cpu_mem_usage=True,
-                trust_remote_code=True,
-            ).eval()
-        elif quant_config == 8:
-            model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B",
-                torch_dtype=torch.bfloat16,
-                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                low_cpu_mem_usage=True,
-                trust_remote_code=True,
-            ).eval()
+        response = result[1][0][1]
+
+        if response == "Timeout! Please wait a few minutes and retry.":
+            print(response)
+            exit()
         else:
-            model = (
-                AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
-                )
-                .eval()
-                .to("cuda")
-            )
-
-        # Load image
-        image = Image.open(info_dict["image_path"]).convert("RGB")
-
-        answers = []
-
-        for question in info_dict["relevant_qns"].split("\n"):
-
-            input_by_model = model.build_conversation_input_ids(
-                tokenizer,
-                query=question,
-                history=None,
-                images=[image],
-                template_version="vqa",
-            )
-            input = {
-                "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
-                "token_type_ids": input_by_model["token_type_ids"]
-                .unsqueeze(0)
-                .to("cuda"),
-                "attention_mask": input_by_model["attention_mask"]
-                .unsqueeze(0)
-                .to("cuda"),
-                "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
-            }
-            gen_kwargs = {
-                "max_new_tokens": 2048,
-                "pad_token_id": 128002,
-                "do_sample": True,
-                "temperature": 0.4,
-            }
-
-            with torch.no_grad():
-                output = model.generate(**input, **gen_kwargs)
-                output = output[:, input["input_ids"].shape[1] :]
-                response = tokenizer.decode(output[0])
-
-            response = response.split("<|end_of_text|>")[0]
-            answers.append(response)
-
-        info_dict["image_features"] = response
+            info_dict["image_features"] = response
 
         return info_dict
 
@@ -222,7 +167,7 @@ def main():
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
-    # image_path = r"images/glassdoor_sliding.jpg"
+    image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
@@ -231,7 +176,7 @@ def main():
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
-    image_path = r"images/threat_detection.jpg"
+    # image_path = r"images/threat_detection.jpg"
     # image_path = r"images/fridge_lefthandle.jpg"
 
     # resize_image(image_path, image_path)
