@@ -59,38 +59,48 @@ def main():
                     low_cpu_mem_usage=True,
                     trust_remote_code=True,
             ).eval().to("cuda")
-
-        # Load image
-        image = Image.open(info_dict["image_path"]).convert("RGB")
-
+        
+        # Create questions list
         questions = info_dict["relevant_qns"].split("\n")
+        # initial_prompt = f"""
+        # You are a robotic arm positioned facing the image.
+        # Examine the given image and answer the following questions.
+        # """
+        # questions.insert(0, initial_prompt)
+        initial_query = True
 
+        # Create answers list
         answers = []
 
-        for question in questions:
+        # Initialise chat history
+        history = []
 
-            query = f"""
-            You are a robotic arm positioned facing the image.
-            Examine the given image and answer the following question.
-            Answer with respect to the features present in the image.
-            Question: {question}
-            """
+        for query in questions:
 
-            # query = question
-
-            input_by_model = model.build_conversation_input_ids(
+            if initial_query == True:
+                image = Image.open(info_dict["image_path"]).convert("RGB") # load image
+                initial_query = False
+                input_by_model = model.build_conversation_input_ids(
                 tokenizer,
                 query=query,
-                history=None,
+                history=history,
                 images=[image],
                 template_version="chat",
-            )
+                )
+            else:
+                image = None
+                input_by_model = model.build_conversation_input_ids(
+                    tokenizer,
+                    query=query,
+                    history=history,
+                    template_version="chat",
+                )
 
             input = {
                 "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
                 "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
                 "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
-                "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
+                "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]] if image is not None else None,
             }
             gen_kwargs = {
                 "max_new_tokens": 1024,
@@ -106,6 +116,9 @@ def main():
                 output = output[:, input["input_ids"].shape[1] :]
                 response = tokenizer.decode(output[0], skip_special_tokens=True)
 
+            history.append((query, response))
+
+            # Append to answers list
             answers.append(response)
         
         answers_str = "\n".join(answers)
@@ -220,8 +233,8 @@ def main():
     # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
-    image_path = r"images/metaldoor_lever_pull.jpg"
-    # image_path = r"images/pinkdoor_knob_pull.jpg"
+    # image_path = r"images/metaldoor_lever_pull.jpg"
+    image_path = r"images/pinkdoor_knob_pull.jpg"
     # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
