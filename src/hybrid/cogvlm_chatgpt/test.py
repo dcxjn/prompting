@@ -63,8 +63,10 @@ def main():
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
 
+        # Create questions list
         questions = info_dict["relevant_qns"].split("\n")
 
+        # Create answers list
         answers = []
 
         for question in questions:
@@ -72,7 +74,8 @@ def main():
             query = f"""
             You are a robotic arm positioned facing the image.
             Examine the given image and answer the following question.
-            Answer with respect to the features present in the image.
+            Answer according to the features present in the image.
+            Ensure that your answer is ACCURATE.
             Question: {question}
             """
 
@@ -96,8 +99,8 @@ def main():
                 "max_new_tokens": 1024,
                 "pad_token_id": 128002,
                 "do_sample": True,
-                # "temperature": 0.8,
-                # "top_p": 0.4,
+                "temperature": 0.6,
+                "top_p": 0.4,
                 "top_k": 1,
             }
 
@@ -129,7 +132,7 @@ def main():
         Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
         Generate questions to obtain the desired information.
         Be extremely specific in your phrasing, ensuring that the questions are understandable by a child.
-        Give only the questions; give them in a numbered list.
+        Give only the questions; give them in a bulleted list.
         """
 
         msg = runnable_with_history.invoke(
@@ -220,9 +223,9 @@ def main():
     # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
-    image_path = r"images/metaldoor_lever_pull.jpg"
+    # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
-    # image_path = r"images/pvcdoor_folding.jpg"
+    image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"

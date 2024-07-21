@@ -106,8 +106,8 @@ def main():
                 "max_new_tokens": 1024,
                 "pad_token_id": 128002,
                 "do_sample": True,
-                # "temperature": 0.8,
-                # "top_p": 0.4,
+                "temperature": 0.8,
+                "top_p": 0.4,
                 "top_k": 1,
             }
 
@@ -142,7 +142,7 @@ def main():
         Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
         Generate questions to obtain the desired information.
         Be extremely specific in your phrasing, ensuring that the questions are understandable by a child.
-        Give only the questions; give them in a numbered list.
+        Give only the questions; give them in a bulleted list.
         """
 
         msg = runnable_with_history.invoke(
@@ -226,7 +226,7 @@ def main():
     """
 
     # [DOORS]
-    # image_path = r"images/autodoor.jpg"
+    image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
@@ -234,7 +234,7 @@ def main():
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
-    image_path = r"images/pinkdoor_knob_pull.jpg"
+    # image_path = r"images/pinkdoor_knob_pull.jpg"
     # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]

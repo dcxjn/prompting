@@ -1,0 +1,89 @@
+=== RELEVANT QUESTIONS ===
+
+- Where is the door located? (x, y coordinates)
+- Is the door handle on the left or right side of the door?
+- What is the height of the door handle from the ground?
+- What type of handle does the door have? (e.g., knob, lever)
+- Does the door open by pulling or pushing?
+- How much force is needed to open the door?
+- What angle should the door be rotated to open fully?
+- Are there any objects blocking the door that need to be moved first?
+
+=== IMAGE FEATURES ===
+
+The door is located at the coordinates (0, 0), which is the center of the image.
+The door handle is on the right side of the door.
+To determine the height of the door handle from the ground, you would need to measure from the bottom edge of the door to the top of the door handle. However, without exact measurements or a reference point in the image, it's not possible to provide an accurate height.
+The door has a knob handle.
+Based on the image, it's not possible to definitively determine whether the door opens by pulling or pushing. However, most standard interior doors open by pulling, as seen in the image.
+To determine the amount of force needed to open the door, one would typically need to apply a known weight or use a force gauge. However, based on the image alone, it's challenging to provide an accurate estimate without additional context or testing.
+To determine the angle the door should be rotated to open fully, we need to consider the door's width and the space available on either side. If the door is wider than the space between the door frame and the wall, it will need to rotate inward. If the space is narrower, it will need to rotate outward. The exact angle would depend on the measurements of the door, the door frame, and the wall space.
+From the image provided, there do not appear to be any objects blocking the door that would need to be moved first. The door seems to be in a clear path without any obstructions.
+
+=== ROBOT INSTRUCTIONS ===
+
+Certainly! Here is a detailed step-by-step guide for the robot to open the door, along with reasons for each step:
+
+1. **Move to the Door Handle:**
+   - **Command:** `move_to(0, handle_height)`
+   - **Reason:** The robot needs to position itself at the height of the door handle to interact with it. Since the exact height is not provided, we'll assume a standard door handle height of approximately 1 meter (100 cm) from the ground.
+
+2. **Rotate to Align with the Handle:**
+   - **Command:** `rotate(90)`
+   - **Reason:** The robot needs to rotate its arm to align with the door handle, which is on the right side of the door.
+
+3. **Grab the Door Handle:**
+   - **Command:** `grab(door_handle)`
+   - **Reason:** The robot needs to securely hold the door handle to turn it.
+
+4. **Turn the Door Handle:**
+   - **Command:** `rotate(-45)`
+   - **Reason:** Most door knobs require a rotation of about 45 degrees to unlatch the door. The exact angle may vary, but 45 degrees is a common standard.
+
+5. **Pull the Door:**
+   - **Command:** `pull(door)`
+   - **Reason:** Based on the assumption that the door opens by pulling, the robot needs to pull the door towards itself to open it.
+
+6. **Move Back to Open the Door Fully:**
+   - **Command:** `move_to(-50, handle_height)`
+   - **Reason:** The robot needs to move backward to allow the door to swing open fully. The distance moved back (50 cm) is an estimate to ensure the door has enough space to open.
+
+7. **Release the Door Handle:**
+   - **Command:** `release(door_handle)`
+   - **Reason:** Once the door is open, the robot can release the handle.
+
+8. **Move to Initial Position:**
+   - **Command:** `move_to(viewer_position)`
+   - **Reason:** The robot should return to its initial position after completing the task.
+
+Here is the sequence of commands:
+
+```plaintext
+move_to(0, 100)          # Move to the height of the door handle
+rotate(90)               # Rotate to align with the handle
+grab(door_handle)        # Grab the door handle
+rotate(-45)              # Turn the door handle
+pull(door)               # Pull the door to open it
+move_to(-50, 100)        # Move back to open the door fully
+release(door_handle)     # Release the door handle
+move_to(viewer_position) # Return to the initial position
+```
+
+This sequence ensures that the robot can effectively open the door by following a logical and step-by-step approach.
+
+=== CODE SUMMARY ===
+
+```plaintext
+move_to(0, 100)          # Move to the height of the door handle
+rotate(90)               # Rotate to align with the handle
+grab(door_handle)        # Grab the door handle
+rotate(-45)              # Turn the door handle
+pull(door)               # Pull the door to open it
+move_to(-50, 100)        # Move back to open the door fully
+release(door_handle)     # Release the door handle
+move_to(viewer_position) # Return to the initial position
+```
+
+===
+
+TIME TAKEN (s): 71.49348139762878

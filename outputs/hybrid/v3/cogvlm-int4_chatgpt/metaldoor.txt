@@ -1,0 +1,142 @@
+=== RELEVANT QUESTIONS ===
+
+- Where is the door located? (x, y coordinates)
+- Is the door handle on the left or right side of the door?
+- What is the height of the door handle from the ground?
+- What type of door handle is it? (e.g., knob, lever, pull handle)
+- In which direction does the door open? (e.g., inward, outward, left, right)
+- Is the door currently locked or unlocked?
+- How much force is needed to turn or pull the door handle?
+- What is the angle needed to rotate the handle to open the door?
+- Are there any obstacles in front of the door that need to be moved?
+- Is there enough space for the door to fully open?
+
+=== IMAGE FEATURES ===
+
+ The door is located at the coordinates (0.5, 0.5) on the image.
+The door handle is on the right side of the door.
+ The door handle is approximately 2.5 feet from the ground.
+The door handle is a lever.
+The door appears to open inward, as evidenced by the handle and the hinge mechanism visible on the right side of the door.
+The door appears to be locked. There is no visible handle or keyhole on the visible side of the door, and there is no visible mechanism to open it from the perspective provided in the image.
+Based on the image, the door handle appears to be a standard lever-style handle, which typically requires a moderate amount of force to turn or pull. It's likely that a person would need to apply a force similar to that required to open a standard wooden door, which is usually between 5 to 10 pounds (2.2 to 4.5 kilograms) of force.
+To determine the angle needed to rotate the handle to open the door, we need to observe the handle's position and the door's hinge mechanism.
+
+1. **Identify the Hinge**: The hinge is the pivot point where the door can rotate. In the image, it is located at the top edge of the door, slightly to the right side when looking from the front.
+
+2. **Identify the Handle**: The handle is the component that, when turned, rotates the door. It is located on the right side of the door, near the bottom edge.
+
+3. **Analyzing the Door's Design**: The door appears to have a vertical hinge mechanism, which means it rotates around a vertical axis.
+
+4. **Estimating the Angle**: Since the door is closed and we cannot see the full rotation range, we can only estimate the angle based on the visible portion of the door and the handle's position.
+
+5. **Estimation**: The visible portion of the door shows a small angle of rotation from the handle's position. If we assume the door is a standard size and the handle is at the starting point of rotation, we can estimate that the angle needed to open the door is likely less than 45 degrees. This is a rough estimate, as the actual angle would depend on the door's full rotation capability and the handle's length.
+
+6. **Conclusion**: Based on the visible features, the estimated angle needed to rotate the handle to open the door is less than 45 degrees. However, without additional information or a full view of the door's rotation capability, this is a conservative estimate.
+Yes, there is a cylindrical object, possibly a bollard, positioned in front of the door. It may need to be moved to ensure the door can be accessed or opened.
+Yes, there appears to be enough space for the door to fully open. The door is currently closed, and the visible space on the right side of the door seems to be sufficient for it to open completely without obstruction.
+
+=== ROBOT INSTRUCTIONS ===
+
+Certainly! Here is a detailed step-by-step guide for the robot to open the door, along with reasons for each step:
+
+1. **Move to the Door Handle**
+   - **Command:** `move_to(0.5, 0.5)`
+   - **Reason:** The robot needs to position itself near the door handle to interact with it.
+
+2. **Move to the Height of the Door Handle**
+   - **Command:** `move_to(0.5, 2.5)`
+   - **Reason:** The door handle is approximately 2.5 feet from the ground, so the robot needs to adjust its height to reach it.
+
+3. **Rotate to Align with the Handle**
+   - **Command:** `rotate(90)`
+   - **Reason:** The handle is on the right side of the door, so the robot needs to rotate to face the handle directly.
+
+4. **Grab the Door Handle**
+   - **Command:** `grab(door_handle)`
+   - **Reason:** The robot needs to grab the handle to turn it and unlock the door.
+
+5. **Rotate the Handle**
+   - **Command:** `rotate(45)`
+   - **Reason:** The handle is a lever and needs to be rotated to open the door. Based on the estimate, a 45-degree rotation should be sufficient.
+
+6. **Pull the Door**
+   - **Command:** `pull(door)`
+   - **Reason:** The door opens inward, so the robot needs to pull it towards itself to open it.
+
+7. **Move Back to Avoid Obstruction**
+   - **Command:** `move_to(0.5, 3.0)`
+   - **Reason:** The robot needs to move back to ensure the door can open fully without hitting the robot.
+
+8. **Check for Obstruction (Cylindrical Object)**
+   - **Command:** `move_to(0.5, 0.5)`
+   - **Reason:** The robot needs to check if the cylindrical object (bollard) is obstructing the door.
+
+9. **Push the Cylindrical Object**
+   - **Command:** `push(cylindrical_object)`
+   - **Reason:** If the cylindrical object is in the way, the robot needs to push it aside to clear the path for the door to open.
+
+10. **Move Back to Door Handle**
+    - **Command:** `move_to(0.5, 2.5)`
+    - **Reason:** After clearing the obstruction, the robot needs to return to the door handle to continue opening the door.
+
+11. **Pull the Door Again**
+    - **Command:** `pull(door)`
+    - **Reason:** The robot needs to ensure the door is fully open after clearing any obstructions.
+
+12. **Release the Door Handle**
+    - **Command:** `release(door_handle)`
+    - **Reason:** Once the door is fully open, the robot can release the handle.
+
+13. **Move Back to Initial Position**
+    - **Command:** `move_to(0.5, 3.0)`
+    - **Reason:** The robot should move back to its initial position to avoid blocking the open door.
+
+By following these steps, the robot can successfully open the door while ensuring that any obstructions are cleared and the door can open fully.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the door handle
+move_to(0.5, 0.5)
+
+# Move to the height of the door handle
+move_to(0.5, 2.5)
+
+# Rotate to align with the handle
+rotate(90)
+
+# Grab the door handle
+grab(door_handle)
+
+# Rotate the handle
+rotate(45)
+
+# Pull the door
+pull(door)
+
+# Move back to avoid obstruction
+move_to(0.5, 3.0)
+
+# Check for obstruction (cylindrical object)
+move_to(0.5, 0.5)
+
+# Push the cylindrical object
+push(cylindrical_object)
+
+# Move back to door handle
+move_to(0.5, 2.5)
+
+# Pull the door again
+pull(door)
+
+# Release the door handle
+release(door_handle)
+
+# Move back to initial position
+move_to(0.5, 3.0)
+```
+
+===
+
+TIME TAKEN (s): 108.64497518539429
