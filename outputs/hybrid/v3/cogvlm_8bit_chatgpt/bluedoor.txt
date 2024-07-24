@@ -1,0 +1,63 @@
+=== RELEVANT QUESTIONS ===
+
+- Where is the door located? (What are the x and y coordinates of the door?)
+- Is the door handle on the left or right side of the door?
+- What is the height of the door handle from the ground?
+- What type of door handle is it? (Is it a knob, lever, or something else?)
+- Do I need to push or pull the door to open it?
+- How much force is needed to open the door?
+- Is the door locked? If yes, where is the key or how do I unlock it?
+- What is the angle I need to rotate the handle to open the door?
+- Are there any obstacles in the way of the door or the robotic arm?
+- How wide does the door open? (What is the angle or distance the door moves when it is fully open?)
+
+=== IMAGE FEATURES ===
+
+The door is located at the coordinates (0, 0).
+The door handle is on the right side of the door.
+The door handle is approximately 3 feet above the ground.
+The door handle in the image is a knob.
+Based on the image, the door appears to be a push door. There is no visible handle or doorknob on the side facing you, which is typical for push doors.
+Based on the image, the door appears to be a standard wooden door with a metal handle and lock. Typically, such doors require a moderate amount of force to open, similar to pushing against a closed door. However, the exact force needed would depend on the door's weight, the quality of the hardware, and the door's age. It's advisable to approach with a gentle push and use the handle for leverage if necessary.
+Based on the image provided, the door appears to be locked. There is a doorknob on the door, but no visible keyhole or key. To unlock it, you would typically need a key or a code to operate the lock mechanism. If there's a code, you would enter it into the lock's keypad or use a remote control. If it's a deadbolt, you might need to use a key to turn the handle and then insert the key into the keyhole to unlock the door.
+The door handle is located at the top center of the door, and it appears to be a horizontal bar-style handle. Typically, such handles are turned to the right to open the door. Therefore, you would need to rotate the handle to the right to open the door.
+No, there are no obstacles in the way of the door or the robotic arm. The path is clear.
+The door appears to be a standard hinged door, which typically opens at a 90-degree angle. When fully opened, it would move a distance equal to its width. Without specific measurements, it's hard to give an exact distance, but it would be approximately the width of the door itself.
+
+=== ROBOT INSTRUCTIONS ===
+
+Sure, here is a detailed step-by-step guide for the robot to open the door, along with reasons for each step:
+
+1. **move_to(0, 3)**
+   - **Reason:** The door handle is located at the coordinates (0, 0) and is 3 feet above the ground. Moving to (0, 3) positions the robotic arm at the height of the door handle.
+
+2. **rotate(90)**
+   - **Reason:** The door handle is a knob that needs to be turned to the right to unlock the door. Rotating the handle 90 degrees to the right should unlock it.
+
+3. **push(door)**
+   - **Reason:** The door is a push door. After unlocking the door by turning the knob, the robot needs to push the door to open it.
+
+4. **move_to(0, 0)**
+   - **Reason:** After pushing the door, the robot should return to its initial position to avoid any potential obstacles or to be ready for the next command.
+
+By following these steps, the robot should be able to successfully open the door.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the door handle height
+move_to(0, 3)
+
+# Rotate the handle to unlock the door
+rotate(90)
+
+# Push the door to open it
+push(door)
+
+# Return to the initial position
+move_to(0, 0)
+```
+
+===
+
+TIME TAKEN (s): 440.9883120059967

@@ -41,7 +41,7 @@ def main():
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
 
-        quant_config = 4
+        quant_config = 8
 
         if quant_config == 4:
             tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
@@ -50,6 +50,15 @@ def main():
                 torch_dtype=torch.bfloat16,
                 low_cpu_mem_usage=True,
                 trust_remote_code=True,
+            ).eval()
+        if quant_config == 8:
+            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+            model = AutoModelForCausalLM.from_pretrained(
+                    "THUDM/cogvlm2-llama3-chat-19B",
+                    torch_dtype=torch.bfloat16,
+                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
             ).eval()
         else:
             tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
@@ -120,7 +129,7 @@ def main():
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
-        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,
@@ -222,14 +231,14 @@ def main():
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
-    # image_path = r"images/labdoor_lever_pull.jpg"
+    image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
     # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
-    image_path = r"images/threat_detection.jpg"
+    # image_path = r"images/threat_detection.jpg"
     # image_path = r"images/fridge_lefthandle.jpg"
 
     # resize_image(image_path, image_path)

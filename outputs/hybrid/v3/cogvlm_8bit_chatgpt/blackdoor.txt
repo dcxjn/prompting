@@ -1,0 +1,67 @@
+=== RELEVANT QUESTIONS ===
+
+- Where is the door located? (What are the x and y coordinates of the door?)
+- Is the door handle within reach of the robotic arm?
+- What is the shape and size of the door handle?
+- Is the door handle a knob or a lever?
+- Which direction does the door open? (Does it open towards you or away from you?)
+- Is the door locked or unlocked?
+- How much force is needed to turn the door handle?
+- What angle should the robotic arm rotate to turn the door handle?
+- After turning the handle, should the door be pushed or pulled to open it?
+- How far does the door need to be moved to be fully open?
+
+=== IMAGE FEATURES ===
+
+The door is located at the coordinates (x, y) = (0.5, 0.5) on the image.
+Yes, the door handle is within reach of the robotic arm.
+The door handle is cylindrical in shape and appears to be quite long, extending vertically down the door. It is made of a reflective material, possibly metal, and has a sleek design.
+The door handle is a lever.
+The door opens towards you.
+The door appears to be locked. There is no visible handle or keyhole on the visible side of the door, and there is no indication of the door being ajar.
+Based on the image, the door handle appears to be a long, horizontal bar handle, which typically requires less force than a vertical bar handle. However, the exact amount of force needed would depend on the weight and mechanism of the door, as well as the material and design of the handle itself. Generally, such handles are designed for ease of use and might not require much force to turn.
+To turn the door handle, the robotic arm should rotate at an angle of approximately 90 degrees clockwise.
+Based on the orientation of the handle, it appears to be a pull handle. Therefore, after turning the handle, the door should be pulled to open it.
+The door appears to be fully open in the image, so no movement is required.
+
+=== ROBOT INSTRUCTIONS ===
+
+Sure, here is a detailed step-by-step guide for the robotic arm to open the door, along with the reasons for each step:
+
+1. **Move to the door handle:**
+   - **Command:** `move_to(0.5, 0.5)`
+   - **Reason:** The door handle is located at coordinates (0.5, 0.5). The robotic arm needs to be positioned at the handle to interact with it.
+
+2. **Rotate the handle:**
+   - **Command:** `rotate(90)`
+   - **Reason:** The door handle is a lever that needs to be rotated 90 degrees clockwise to unlock the door.
+
+3. **Pull the door:**
+   - **Command:** `pull(door)`
+   - **Reason:** The door opens towards you, so after rotating the handle, the robotic arm needs to pull the door to open it.
+
+4. **Release the handle:**
+   - **Command:** `release(door)`
+   - **Reason:** Once the door is open, the robotic arm should release the handle to complete the task.
+
+By following these steps, the robotic arm will successfully open the door.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the door handle
+move_to(0.5, 0.5)  # Position at handle coordinates
+
+# Rotate the handle
+rotate(90)  # Rotate handle 90 degrees clockwise
+
+# Pull the door
+pull(door)  # Pull the door to open
+
+# Release the handle
+release(door)  # Release the handle after opening
+```
+
+===
+
+TIME TAKEN (s): 160.0557987689972
