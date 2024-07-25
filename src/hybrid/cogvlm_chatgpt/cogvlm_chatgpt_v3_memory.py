@@ -51,6 +51,15 @@ def main():
                 low_cpu_mem_usage=True,
                 trust_remote_code=True,
             ).eval()
+        if quant_config == 8:
+            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+            model = AutoModelForCausalLM.from_pretrained(
+                    "THUDM/cogvlm2-llama3-chat-19B",
+                    torch_dtype=torch.bfloat16,
+                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
+            ).eval()
         else:
             tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
             model = AutoModelForCausalLM.from_pretrained(
@@ -65,6 +74,8 @@ def main():
         # initial_prompt = f"""
         # You are a robotic arm positioned facing the image.
         # Examine the given image and answer the following questions.
+        # Answer according to the features present in the image.
+        # Ensure that your answer is ACCURATE.
         # """
         # questions.insert(0, initial_prompt)
         initial_query = True
@@ -106,7 +117,7 @@ def main():
                 "max_new_tokens": 1024,
                 "pad_token_id": 128002,
                 "do_sample": True,
-                "temperature": 0.8,
+                "temperature": 0.6,
                 "top_p": 0.4,
                 "top_k": 1,
             }
@@ -130,7 +141,7 @@ def main():
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
-        llm = ChatOpenAI(temperature=0.2, model="gpt-4o", max_tokens=4096)
+        llm = ChatOpenAI(temperature=0, model="gpt-4o", max_tokens=4096)
 
         runnable_with_history = RunnableWithMessageHistory(
             llm,

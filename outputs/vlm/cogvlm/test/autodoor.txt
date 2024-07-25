@@ -1,0 +1,4 @@
+=== ANSWERS ===
+
+This is an automatic sliding door. You can tell because there is no visible handle or lever to push or pull, and there is a sensor at the top that detects when someone is approaching to open the door.
+Yes, the door has a handle. It appears to be a push handle, so you would push it to open the door.
