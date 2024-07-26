@@ -4,6 +4,7 @@ import torch
 
 from PIL import Image
 
+
 def main():
 
     # [DOORS]
@@ -22,11 +23,13 @@ def main():
     # image_path = r"images/whitetable.jpg"
     # image_path = r"images/threat_detection.jpg"
     # image_path = r"images/fridge_lefthandle.jpg"
-    
+
     quant_config = 8
 
     if quant_config == 4:
-        tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(
+            "THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True
+        )
         model = AutoModelForCausalLM.from_pretrained(
             "THUDM/cogvlm2-llama3-chat-19B-int4",
             torch_dtype=torch.bfloat16,
@@ -34,30 +37,38 @@ def main():
             trust_remote_code=True,
         ).eval()
     if quant_config == 8:
-        tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(
+            "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+        )
         model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B",
-                torch_dtype=torch.bfloat16,
-                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                low_cpu_mem_usage=True,
-                trust_remote_code=True,
+            "THUDM/cogvlm2-llama3-chat-19B",
+            torch_dtype=torch.bfloat16,
+            quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
         ).eval()
     else:
-        tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-        model = AutoModelForCausalLM.from_pretrained(
+        tokenizer = AutoTokenizer.from_pretrained(
+            "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+        )
+        model = (
+            AutoModelForCausalLM.from_pretrained(
                 "THUDM/cogvlm2-llama3-chat-19B",
                 torch_dtype=torch.bfloat16,
                 low_cpu_mem_usage=True,
                 trust_remote_code=True,
-        ).eval().to("cuda")
+            )
+            .eval()
+            .to("cuda")
+        )
 
     # Load image
     image = Image.open(image_path).convert("RGB")
-    
+
     # Create questions list
     questions = [
-        "Is this a push or pull door or something else?", 
-        "Does the door have a handle? If so, what type of handle does the door have and how do I open it?"
+        "Is this a push or pull door or something else?",
+        "Does the door have a handle? If so, what type of handle does the door have and how do I open it?",
     ]
 
     # Create answers list
@@ -73,7 +84,7 @@ def main():
             history=None,
             images=[image],
             template_version="chat",
-            )
+        )
 
         input = {
             "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
@@ -96,12 +107,11 @@ def main():
             response = tokenizer.decode(output[0], skip_special_tokens=True)
 
         answers.append(response)
-        
-        answers_str = "\n".join(answers)
+
+    answers_str = "\n".join(answers)
 
     print("\n=== ANSWERS ===\n\n" + answers_str)
 
-    
 
 if __name__ == "__main__":
     main()
