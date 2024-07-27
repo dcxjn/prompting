@@ -8,7 +8,7 @@ from PIL import Image
 def main():
 
     # [DOORS]
-    # image_path = r"images/autodoor.jpg"
+    image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
@@ -17,7 +17,7 @@ def main():
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
-    image_path = r"images/pvcdoor_folding.jpg"
+    # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
@@ -67,7 +67,7 @@ def main():
 
     # Create questions list
     questions = [
-        "Is this a push or pull door or something else?",
+        "I am facing the image. Is this a push or pull door or something else?",
         "Does the door have a handle? If so, what type of handle does the door have and how do I open it?",
     ]
 
