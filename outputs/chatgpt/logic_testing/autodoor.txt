@@ -1,0 +1,4 @@
+=== ANSWERS ===
+
+The door in the image is an automatic sliding door. You do not need to push or pull it. The door will open automatically as you approach it.
+The door in the image does not have a traditional handle. It is an automatic sliding door, which typically opens when it detects motion or when a button is pressed. To open this door, you would either walk towards it, triggering the motion sensor, or press a button if one is available nearby.

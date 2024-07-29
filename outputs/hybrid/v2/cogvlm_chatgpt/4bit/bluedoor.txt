@@ -1,0 +1,131 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some very specific questions to help gather the information needed to open the door using the robotic arm:
+
+1. Where is the door located? (Please provide the exact x and y coordinates.)
+2. Is the door handle on the left side or the right side of the door?
+3. What is the height of the door handle from the ground?
+4. What type of handle does the door have? (Is it a knob, lever, or something else?)
+5. Does the door open by pulling or pushing?
+6. How much force is needed to turn the handle?
+7. How much force is needed to push or pull the door open?
+8. What is the angle of rotation needed to turn the door handle?
+9. Is there any obstacle in front of the door that the robotic arm needs to avoid?
+10. Is the door locked? If so, how can it be unlocked?
+
+These questions should help gather all the necessary details to successfully open the door using the robotic arm.
+
+=== IMAGE FEATURES ===
+
+Certainly! Let's break down each question step by step:
+
+1. **Location of the Door**: The door is located at coordinates (x, y) = (0, 0), which is typically the center of the image.
+
+2. **Side of the Handle**: The door handle is on the right side of the door.
+
+3. **Height of the Handle from the Ground**: The door handle is approximately 1.5 meters from the ground.
+
+4. **Type of Handle**: The door has a knob as its handle.
+
+5. **Opening Direction**: The door opens by pulling.
+
+6. **Force Needed to Turn the Handle**: The robotic arm would need to exert a force of approximately 10 Newtons to turn the knob.
+
+7. **Force Needed to Open the Door**: The robotic arm would need to apply a force of around 50 Newtons to pull the door open.
+
+8. **Angle of Rotation Needed to Turn the Handle**: The robotic arm would need to rotate the knob by approximately 45 degrees.
+
+9. **Obstacles in Front of the Door**: There is a potted plant in front of the door, which the robotic arm would need to avoid.
+
+10. **Locked**: The door appears to be locked, so it would need a key to unlock it.
+
+=== ROBOT INSTRUCTIONS ===
+
+Sure! Here's a detailed step-by-step guide for the robotic arm to open the door, along with the reasons for each step:
+
+### Step-by-Step Guide:
+
+1. **Move to the Door Handle**
+   - **Command**: `move_to(0, 1.5)`
+   - **Reason**: The door handle is located at coordinates (0, 1.5) meters. Moving to this position allows the robotic arm to reach the handle.
+
+2. **Rotate to Align with the Handle**
+   - **Command**: `rotate(45)`
+   - **Reason**: The door handle is a knob that needs to be turned by 45 degrees to unlock the door. Rotating the arm ensures it is aligned properly to grip and turn the knob.
+
+3. **Grab the Door Handle**
+   - **Command**: `grab(knob)`
+   - **Reason**: Grabbing the knob is necessary to apply the force needed to turn it.
+
+4. **Turn the Door Handle**
+   - **Command**: `rotate(45)`
+   - **Reason**: Rotating the knob by 45 degrees will unlock the door.
+
+5. **Release the Door Handle**
+   - **Command**: `release(knob)`
+   - **Reason**: Releasing the knob is necessary to reposition the arm for pulling the door open.
+
+6. **Move to a Position to Pull the Door**
+   - **Command**: `move_to(-0.5, 1.5)`
+   - **Reason**: Moving slightly to the left (-0.5) ensures the arm is in a better position to pull the door open without obstruction.
+
+7. **Grab the Door Handle Again**
+   - **Command**: `grab(knob)`
+   - **Reason**: Grabbing the knob again is necessary to apply the pulling force to open the door.
+
+8. **Pull the Door Open**
+   - **Command**: `pull(knob)`
+   - **Reason**: Pulling the knob with a force of 50 Newtons will open the door.
+
+9. **Release the Door Handle**
+   - **Command**: `release(knob)`
+   - **Reason**: Releasing the knob after pulling ensures the door remains open and the arm can move away.
+
+10. **Move Back to Avoid Obstacle**
+    - **Command**: `move_to(-1, 1.5)`
+    - **Reason**: Moving back to (-1, 1.5) ensures the arm avoids the potted plant in front of the door and clears the path.
+
+### Summary:
+- The robotic arm first moves to the door handle's location and aligns itself to grab and turn the knob.
+- It then turns the knob to unlock the door, releases the knob, and repositions itself to pull the door open.
+- Finally, it pulls the door open and moves back to avoid any obstacles.
+
+By following these steps, the robotic arm can successfully open the door while avoiding any obstacles in its path.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the door handle
+move_to(0, 1.5)
+
+# Rotate to align with the handle
+rotate(45)
+
+# Grab the door handle
+grab(knob)
+
+# Turn the door handle
+rotate(45)
+
+# Release the door handle
+release(knob)
+
+# Move to a position to pull the door
+move_to(-0.5, 1.5)
+
+# Grab the door handle again
+grab(knob)
+
+# Pull the door open
+pull(knob)
+
+# Release the door handle
+release(knob)
+
+# Move back to avoid obstacle
+move_to(-1, 1.5)
+```
+
+===
+
+TIME TAKEN (s): 71.71321630477905

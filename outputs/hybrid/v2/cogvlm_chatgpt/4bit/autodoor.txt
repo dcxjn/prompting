@@ -1,0 +1,149 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some simple and specific questions to help gather the information needed to open the door with the robotic arm:
+
+1. Where is the door located? (Please give the x and y coordinates)
+2. Is the door handle on the left side or the right side of the door?
+3. What is the height of the door handle from the ground?
+4. What type of door handle is it? (Is it a knob, lever, or something else?)
+5. Does the door handle need to be turned, pushed, or pulled to open the door?
+6. If the handle needs to be turned, in which direction should it be turned? (Clockwise or counterclockwise)
+7. How many degrees should the handle be turned to open the door?
+8. Is the door locked? If yes, where is the keyhole located?
+9. If the door is locked, where can I find the key?
+10. After turning the handle, does the door need to be pushed or pulled to open it?
+11. How much force is needed to push or pull the door open?
+12. Are there any obstacles in the way of the door that need to be moved first?
+
+These questions will help ensure that the robotic arm has all the necessary information to successfully open the door.
+
+=== IMAGE FEATURES ===
+
+1. Where is the door located?
+         The door is located at x: 0.5 meters and y: 2.5 meters from the starting point of the image.
+2. Is the door handle on the left side or the right side of the door?
+         The door handle is on the right side of the door.
+3. What is the height of the door handle from the ground?
+         The door handle is approximately 1.8 meters from the ground.
+4. What type of door handle is it?
+         It appears to be a lever-style door handle.
+5. Does the door handle need to be turned, pushed, or pulled to open the door?
+         The door handle needs to be turned to open the door.
+6. If the handle needs to be turned, in which direction should it be turned? (Clockwise or counterclockwise)
+         It should be turned clockwise to open the door.
+7. How many degrees should the handle be turned to open the door?
+         The handle should be turned approximately 90 degrees to open the door.
+8. Is the door locked? If yes, where is the keyhole located?
+         Yes, the door is locked. The keyhole is located at the base of the door, just below the handle.
+9. If the door is locked, where can I find the key?
+         The key can be found at the base of the door, next to the keyhole.
+10. After turning the handle, does the door need to be pushed or pulled to open it?
+         After turning the handle, the door needs to be pushed to open it.
+11. How much force is needed to push the door open?
+         A moderate force, roughly equivalent to the weight of a bag of groceries, should suffice to push the door open.
+12. Are there any obstacles in the way of the door that need to be moved first?
+         No, there are no visible obstacles in the way of the door.
+
+=== ROBOT INSTRUCTIONS ===
+
+Sure! Here is a detailed step-by-step guide on how the robot would complete the task of opening the door, along with reasons for each step:
+
+1. **Move to the Key Location:**
+   ```python
+   move_to(0.5, 2.5)
+   ```
+   *Reason:* The key is located at the base of the door, next to the keyhole. The robot needs to move to this position to grab the key.
+
+2. **Grab the Key:**
+   ```python
+   grab("key")
+   ```
+   *Reason:* The robot needs to pick up the key to unlock the door.
+
+3. **Move to the Keyhole:**
+   ```python
+   move_to(0.5, 2.5)
+   ```
+   *Reason:* The keyhole is located just below the door handle. The robot needs to position itself correctly to insert the key.
+
+4. **Insert and Turn the Key:**
+   ```python
+   rotate(90)  # Assuming the key needs to be turned 90 degrees to unlock
+   ```
+   *Reason:* The robot needs to turn the key to unlock the door.
+
+5. **Release the Key:**
+   ```python
+   release("key")
+   ```
+   *Reason:* After unlocking the door, the robot can release the key.
+
+6. **Move to the Door Handle:**
+   ```python
+   move_to(0.5, 1.8)
+   ```
+   *Reason:* The door handle is located at a height of 1.8 meters. The robot needs to move to this position to interact with the handle.
+
+7. **Grab the Door Handle:**
+   ```python
+   grab("door_handle")
+   ```
+   *Reason:* The robot needs to grab the door handle to turn it.
+
+8. **Turn the Door Handle:**
+   ```python
+   rotate(90)  # Turn the handle clockwise 90 degrees
+   ```
+   *Reason:* The handle needs to be turned 90 degrees clockwise to open the door.
+
+9. **Release the Door Handle:**
+   ```python
+   release("door_handle")
+   ```
+   *Reason:* After turning the handle, the robot can release it.
+
+10. **Push the Door:**
+    ```python
+    push("door")
+    ```
+    *Reason:* The door needs to be pushed open after the handle has been turned.
+
+By following these steps, the robot will successfully open the door. Each step is designed to ensure the robot interacts with the door and its components in the correct sequence and manner.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the key location
+move_to(0.5, 2.5)
+
+# Grab the key
+grab("key")
+
+# Move to the keyhole
+move_to(0.5, 2.5)
+
+# Insert and turn the key
+rotate(90)
+
+# Release the key
+release("key")
+
+# Move to the door handle
+move_to(0.5, 1.8)
+
+# Grab the door handle
+grab("door_handle")
+
+# Turn the door handle
+rotate(90)
+
+# Release the door handle
+release("door_handle")
+
+# Push the door
+push("door")
+```
+
+===
+
+TIME TAKEN (s): 90.27953219413757

@@ -1,0 +1,130 @@
+=== RELEVANT QUESTIONS ===
+
+Sure! Here are some very specific questions to help gather the information needed to open the door using the robotic arm:
+
+1. Where is the door located? Can you give me the exact x and y coordinates of the door?
+2. Is the door handle on the left side or the right side of the door?
+3. What is the height of the door handle from the ground?
+4. What type of handle does the door have? Is it a knob, lever, or something else?
+5. Do I need to push or pull the door to open it?
+6. If I need to push or pull the door, how far should I move it to fully open it?
+7. Does the door open inward or outward?
+8. Is the door locked? If yes, how do I unlock it?
+9. What is the angle of rotation needed to turn the door handle?
+10. Is there anything in front of or behind the door that I should be careful of when opening it?
+
+These questions will help gather all the necessary details to successfully open the door using the robotic arm.
+
+=== IMAGE FEATURES ===
+
+Certainly! Let's go through each question step by step:
+
+1. **Where is the door located?**
+   - The door is located on the right side of the image, as indicated by the positioning of the robotic arm and the visible part of the door.
+   - The exact x and y coordinates of the door cannot be determined from the image alone, as the image does not provide a scale or reference points for precise measurements.
+
+2. **Is the door handle on the left side or the right side of the door?**
+   - The door handle is on the right side of the door, as observed from the perspective of the robotic arm.
+
+3. **What is the height of the door handle from the ground?**
+   - The exact height of the door handle from the ground cannot be determined from the image as there is no visible scale or reference point provided.
+
+4. **What type of handle does the door have?**
+   - The door appears to have a lever-style handle, which is identifiable by its elongated shape and the position where it attaches to the door frame.
+
+5. **Do I need to push or pull the door to open it?**
+   - Based on the image, it's not possible to definitively determine whether the door opens by pushing or pulling without additional context or the ability to physically interact with the door.
+
+6. **If I need to push or pull the door, how far should I move it to fully open it?**
+   - The exact distance to fully open the door cannot be determined from the image as no measurement is provided.
+
+7. **Does the door open inward or outward?**
+   - The image does not provide enough information to determine whether the door opens inward or outward.
+
+8. **Is the door locked? If yes, how do I unlock it?**
+   - The image does not provide any clear indicators about whether the door is locked or not.
+
+9. **What is the angle of rotation needed to turn the door handle?**
+   - The exact angle of rotation cannot be determined from the image as there is no reference point provided for measurement.
+
+10. **Is there anything in front of or behind the door that I should be careful of when opening it?**
+   - The image does not provide any information about objects or obstructions in front of or behind the door that might need to be considered when opening it.
+
+To successfully open the door using the robotic arm, one would need more specific information or the ability to physically interact with the door to answer these questions accurately.
+
+=== ROBOT INSTRUCTIONS ===
+
+Certainly! Based on the provided answers and the available commands for the robotic arm, here is a detailed step-by-step guide on how the robot would attempt to open the door. Each step includes a reason for the action:
+
+1. **Move to the Door Handle:**
+   - **Command:** `move_to(x, y)`
+   - **Reason:** Since the door handle is on the right side of the door, the robotic arm needs to move to the approximate location of the handle. Although the exact coordinates are not provided, the arm should move to the right side of the image where the handle is located.
+
+2. **Adjust Height to Reach the Handle:**
+   - **Command:** `move_to(x, y)` (adjust y-coordinate to match the height of the handle)
+   - **Reason:** The height of the door handle is not specified, but the arm should adjust its vertical position to align with the handle's height based on visual estimation.
+
+3. **Grab the Door Handle:**
+   - **Command:** `grab(handle)`
+   - **Reason:** The robotic arm needs to securely hold the lever-style handle to manipulate it.
+
+4. **Rotate the Handle:**
+   - **Command:** `rotate(angle)`
+   - **Reason:** Although the exact angle is not provided, the arm should rotate the handle in the typical direction for a lever handle (usually downward) to unlatch the door. A common angle for lever handles is around 45 degrees.
+
+5. **Determine Door Movement (Push or Pull):**
+   - **Command:** (This step requires a decision based on trial and error)
+   - **Reason:** Since it's unclear whether the door needs to be pushed or pulled, the arm should try one method first. Let's assume it tries to pull first.
+
+6. **Pull the Door:**
+   - **Command:** `pull(door)`
+   - **Reason:** Attempt to pull the door to see if it opens. If it doesn't open, the arm will need to try pushing.
+
+7. **If Pulling Fails, Push the Door:**
+   - **Command:** `push(door)`
+   - **Reason:** If the door does not open by pulling, the arm should then try pushing the door to open it.
+
+8. **Release the Handle:**
+   - **Command:** `release(handle)`
+   - **Reason:** Once the door is opened, the robotic arm should release the handle to complete the task.
+
+Here is the step-by-step guide in command format:
+
+1. `move_to(estimated_x, estimated_y)` (Move to the right side of the image where the handle is located)
+2. `move_to(estimated_x, handle_height)` (Adjust height to reach the handle)
+3. `grab(handle)` (Grab the door handle)
+4. `rotate(45)` (Rotate the handle to unlatch the door)
+5. `pull(door)` (Attempt to pull the door)
+6. If the door does not open, `push(door)` (Attempt to push the door)
+7. `release(handle)` (Release the handle once the door is open)
+
+**Note:** The exact coordinates and handle height are estimated based on visual cues since precise measurements are not provided. The robot may need to adjust its actions based on real-time feedback and trial and error.
+
+=== CODE SUMMARY ===
+
+```python
+# Move to the right side of the image where the handle is located
+move_to(estimated_x, estimated_y)
+
+# Adjust height to reach the handle
+move_to(estimated_x, handle_height)
+
+# Grab the door handle
+grab(handle)
+
+# Rotate the handle to unlatch the door
+rotate(45)
+
+# Attempt to pull the door
+pull(door)
+
+# If the door does not open, attempt to push the door
+push(door)
+
+# Release the handle once the door is open
+release(handle)
+```
+
+===
+
+TIME TAKEN (s): 106.5664119720459
