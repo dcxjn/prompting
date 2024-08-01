@@ -37,74 +37,6 @@ def main():
         if session_id not in store:
             store[session_id] = InMemoryHistory()
         return store[session_id]
-    
-    def get_image_description(info_dict: dict) -> dict:
-        """Get the image features."""
-
-        quant_config = 8
-
-        if quant_config == 4:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B-int4",
-                torch_dtype=torch.bfloat16,
-                low_cpu_mem_usage=True,
-                trust_remote_code=True,
-            ).eval()
-        if quant_config == 8:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
-            ).eval()
-        else:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
-            ).eval().to("cuda")
-
-        # Load image
-        image = Image.open(info_dict["image_path"]).convert("RGB")
-
-        query = "Give a brief description of the image."
-
-        input_by_model = model.build_conversation_input_ids(
-            tokenizer,
-            query=query,
-            history=None,
-            images=[image],
-            template_version="chat",
-        )
-
-        input = {
-            "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
-            "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
-            "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
-            "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
-        }
-        gen_kwargs = {
-            "max_new_tokens": 512,
-            "pad_token_id": 128002,
-            "do_sample": True,
-            # "temperature": 0.6,
-            # "top_p": 0.4,
-            "top_k": 1,
-        }
-
-        with torch.no_grad():
-            output = model.generate(**input, **gen_kwargs)
-            output = output[:, input["input_ids"].shape[1] :]
-            response = tokenizer.decode(output[0], skip_special_tokens=True)
-
-        info_dict["image_desc"] = response
-
-        return info_dict
 
     def get_image_features(info_dict: dict) -> dict:
         """Get the image features."""
@@ -171,11 +103,11 @@ def main():
                 "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
             }
             gen_kwargs = {
-                "max_new_tokens": 256,
+                "max_new_tokens": 1024,
                 "pad_token_id": 128002,
                 "do_sample": True,
-                # "temperature": 0.6,
-                # "top_p": 0.4,
+                "temperature": 0.6,
+                "top_p": 0.4,
                 "top_k": 1,
             }
 
@@ -202,15 +134,13 @@ def main():
             get_by_session_id,
         )
 
-        info_dict = get_image_description(info_dict)
-
         prompt1 = f"""
-        You have an image with this description: {info_dict["image_desc"]}
-        The image depicts a scenario in which you are supposed to complete a task in.
+        Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Given the task of: {info_dict["task"]}, what are some information essential to completing the task?
         Generate questions to obtain the desired information.
         Be extremely specific in your phrasing, ensuring that the questions are understandable by a child.
         Give only the questions; give them in a bulleted list.
+        Give your response in Chinese.
         """
 
         msg = runnable_with_history.invoke(
@@ -233,7 +163,6 @@ def main():
 
         prompt2 = f"""
         Here are the answers to the questions you have generated earlier: {info_dict["image_features"]}
-        Imagine you are in control of a robotic arm with the following commands: {info_dict["bot_commands"]}
         Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
         Note that the robot is in the position of the 'viewer'.
         Give a reason for each step.
@@ -254,28 +183,6 @@ def main():
         )
 
         info_dict["bot_inst"] = msg.content
-
-        # prompt3 = f"""
-        # By referencing an observation in the image, ensure each instruction is accurate.
-        # Check that each instruction is logical.
-        # Does the overall flow of instructions make sense?
-        # """
-
-        # msg = runnable_with_history.invoke(
-        #     [
-        #         HumanMessage(
-        #             content=[
-        #                 {
-        #                     "type": "text",
-        #                     "text": prompt3,
-        #                 },
-        #             ]
-        #         )
-        #     ],
-        #     config={"configurable": {"session_id": "abc"}},
-        # )
-
-        # info_dict["refined_bot_inst"] = msg.content
 
         return info_dict
 
@@ -308,13 +215,12 @@ def main():
 
     # Robot commands available
     bot_commands = """
-        1. move_to(x, y) # robot body moves to the coordinates
-        2. arm_move_to(x, y) # robot arm moves to the coordinates
-        3. grab(object) # robot arm grabs object
-        4. release(object) # robot arm releases object
-        5. push(object) # robot arm pushes object
-        6. pull(object) # robot arm pulls object
-        7. arm_rotate(angle) # robot arm rotates at that angle
+        1. move_to(x, y)
+        2. grab(object)
+        3. release(object)
+        4. push(object)
+        5. pull(object)
+        6. rotate(angle)
     """
 
     # [DOORS]
@@ -324,10 +230,10 @@ def main():
     # image_path = r"images/browndoor_knob_pull.jpg"
     # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
-    # image_path = r"images/labdoor_lever_pull.jpg"
+    image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
-    image_path = r"images/pvcdoor_folding.jpg"
+    # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
@@ -354,11 +260,9 @@ def main():
 
     end = time.time()
 
-    print("\n=== IMAGE DESC ===\n\n" + info_dict["image_desc"])
     print("\n=== RELEVANT QUESTIONS ===\n\n" + info_dict["relevant_qns"])
     print("\n=== IMAGE FEATURES ===\n\n" + info_dict["image_features"])
     print("\n=== ROBOT INSTRUCTIONS ===\n\n" + info_dict["bot_inst"])
-    # print("\n=== REFINED ROBOT INSTRUCTIONS ===\n\n" + info_dict["refined_bot_inst"])
     print("\n=== CODE SUMMARY ===\n\n" + info_dict["code_summary"])
     print("\n===\n\nTIME TAKEN (s):", (end - start))
 

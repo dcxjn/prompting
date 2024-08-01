@@ -88,8 +88,6 @@ def main():
             Question: {question}
             """
 
-            # query = question
-
             input_by_model = model.build_conversation_input_ids(
                 tokenizer,
                 query=query,
