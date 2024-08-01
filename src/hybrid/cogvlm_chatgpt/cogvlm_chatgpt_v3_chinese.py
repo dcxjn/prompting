@@ -44,30 +44,41 @@ def main():
         quant_config = 8
 
         if quant_config == 4:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chinese-chat-19B", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B-int4",
+                "THUDM/cogvlm2-llama3-chinese-chat-19B",
                 torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_4bit=True),
                 low_cpu_mem_usage=True,
                 trust_remote_code=True,
             ).eval()
         if quant_config == 8:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chinese-chat-19B", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
+                "THUDM/cogvlm2-llama3-chinese-chat-19B",
+                torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                low_cpu_mem_usage=True,
+                trust_remote_code=True,
             ).eval()
         else:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chinese-chat-19B", trust_remote_code=True
+            )
+            model = (
+                AutoModelForCausalLM.from_pretrained(
+                    "THUDM/cogvlm2-llama3-chinese-chat-19B",
                     torch_dtype=torch.bfloat16,
                     low_cpu_mem_usage=True,
                     trust_remote_code=True,
-            ).eval().to("cuda")
+                )
+                .eval()
+                .to("cuda")
+            )
 
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
@@ -81,11 +92,11 @@ def main():
         for question in questions:
 
             query = f"""
-            You are a robotic arm positioned facing the image.
-            Examine the given image and answer the following question.
-            Answer according to the features present in the image.
-            Ensure that your answer is ACCURATE.
-            Question: {question}
+            你是一个面向图像的机械臂。
+            检查这个图像并且回答以下问题。
+            根据图中的特征回答。
+            确保您的答案是正确的。
+            问题: {question}
             """
 
             input_by_model = model.build_conversation_input_ids(
@@ -98,8 +109,12 @@ def main():
 
             input = {
                 "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
-                "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
-                "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
+                "token_type_ids": input_by_model["token_type_ids"]
+                .unsqueeze(0)
+                .to("cuda"),
+                "attention_mask": input_by_model["attention_mask"]
+                .unsqueeze(0)
+                .to("cuda"),
                 "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
             }
             gen_kwargs = {
@@ -117,7 +132,7 @@ def main():
                 response = tokenizer.decode(output[0], skip_special_tokens=True)
 
             answers.append(response)
-        
+
         answers_str = "\n".join(answers)
 
         info_dict["image_features"] = answers_str
@@ -166,6 +181,7 @@ def main():
         Using the answers and the available robot commands, provide a detailed step-by-step guide on how the robot would complete the task.
         Note that the robot is in the position of the 'viewer'.
         Give a reason for each step.
+        Give your response in English.
         """
 
         msg = runnable_with_history.invoke(
