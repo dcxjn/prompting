@@ -72,7 +72,7 @@ def main():
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
 
-        query = "Give a brief description of the image."
+        query = "Describe the image."
 
         input_by_model = model.build_conversation_input_ids(
             tokenizer,
@@ -320,9 +320,9 @@ def main():
     # [DOORS]
     # image_path = r"images/autodoor.jpg"
     # image_path = r"images/blackdoor_handle_push.jpg"
-    # image_path = r"images/bluedoor_knob_push.jpg"
+    image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
-    image_path = r"images/glassdoor_sliding.jpg"
+    # image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
