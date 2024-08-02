@@ -1,0 +1,103 @@
+=== IMAGE DESC ===
+
+The image showcases a table set against a textured wall. On the table, there is a white tablecloth, upon which various items are arranged. From left to right, there is a blue teapot, a wine bottle, a white vase with red roses, a bowl, a piece of bread, and a set of silverware.
+
+=== RELEVANT QUESTIONS ===
+
+- What color is the teapot?
+- Where is the teapot on the table?
+- What is next to the teapot on the left?
+- What is next to the teapot on the right?
+- What is the teapot sitting on?
+- What does the teapot look like?
+
+=== IMAGE FEATURES ===
+
+The teapot is blue.
+The teapot is on the left side of the table.
+Next to the teapot on the left is a wine glass.
+Next to the teapot on the right is a wine bottle.
+The teapot is sitting on a table.
+The teapot is blue in color and appears to be made of a ceramic or porcelain material. It has a traditional design with a spout and a handle on the top.
+
+=== ROBOT INSTRUCTIONS ===
+
+### Step-by-Step Guide for the Robot to Get the Teapot
+
+1. **Identify the Teapot's Position:**
+   - **Reason:** To ensure the robot knows the exact location of the teapot on the table.
+   - The teapot is on the left side of the table, next to a wine glass on the left and a wine bottle on the right.
+
+2. **Move the Robot Body to the Table:**
+   - **Command:** `move_to(table_x, table_y)`
+   - **Reason:** To position the robot close enough to the table to reach the teapot.
+
+3. **Move the Robot Arm to the Teapot's Position:**
+   - **Command:** `arm_move_to(teapot_x, teapot_y)`
+   - **Reason:** To align the robot arm directly above the teapot for accurate grabbing.
+
+4. **Adjust the Arm's Angle if Necessary:**
+   - **Command:** `arm_rotate(angle)`
+   - **Reason:** To ensure the arm is in the correct orientation to grab the teapot's handle.
+
+5. **Grab the Teapot:**
+   - **Command:** `grab(teapot)`
+   - **Reason:** To securely hold the teapot with the robot arm.
+
+6. **Lift the Teapot:**
+   - **Command:** `arm_move_to(teapot_x, teapot_y + lift_height)`
+   - **Reason:** To lift the teapot off the table without disturbing other items.
+
+7. **Move the Robot Arm Back to a Safe Position:**
+   - **Command:** `arm_move_to(safe_x, safe_y)`
+   - **Reason:** To move the teapot to a safe location where it can be easily accessed or placed down.
+
+### Example Coordinates and Commands (Assuming Coordinates)
+- `table_x, table_y` = (100, 50)
+- `teapot_x, teapot_y` = (90, 45)
+- `lift_height` = 10
+- `safe_x, safe_y` = (110, 60)
+
+### Commands Sequence
+1. `move_to(100, 50)`
+2. `arm_move_to(90, 45)`
+3. `arm_rotate(0)` (if needed)
+4. `grab(teapot)`
+5. `arm_move_to(90, 55)` (lifting the teapot)
+6. `arm_move_to(110, 60)`
+
+### Reasons for Each Step
+- **Step 1:** Position the robot close to the table to reach the teapot.
+- **Step 2:** Align the robot arm directly above the teapot.
+- **Step 3:** Ensure the arm is correctly oriented to grab the teapot.
+- **Step 4:** Securely hold the teapot.
+- **Step 5:** Lift the teapot to avoid knocking over other items.
+- **Step 6:** Move the teapot to a safe location for further actions.
+
+By following these steps, the robot will successfully complete the task of getting the teapot.
+
+=== CODE SUMMARY ===
+
+```python
+# Move the robot to the table
+move_to(100, 50)
+
+# Move the robot arm to the teapot's position
+arm_move_to(90, 45)
+
+# Adjust the arm's angle if necessary
+arm_rotate(0)  # Assuming no rotation needed
+
+# Grab the teapot
+grab(teapot)
+
+# Lift the teapot
+arm_move_to(90, 55)
+
+# Move the teapot to a safe position
+arm_move_to(110, 60)
+```
+
+===
+
+TIME TAKEN (s): 200.15632128715515
