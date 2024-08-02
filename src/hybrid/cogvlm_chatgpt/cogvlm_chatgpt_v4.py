@@ -322,12 +322,12 @@ def main():
     # image_path = r"images/blackdoor_handle_push.jpg"
     # image_path = r"images/bluedoor_knob_push.jpg"
     # image_path = r"images/browndoor_knob_pull.jpg"
-    # image_path = r"images/glassdoor_sliding.jpg"
+    image_path = r"images/glassdoor_sliding.jpg"
     # image_path = r"images/housedoor_knob_push.jpg"
     # image_path = r"images/labdoor_lever_pull.jpg"
     # image_path = r"images/metaldoor_lever_pull.jpg"
     # image_path = r"images/pinkdoor_knob_pull.jpg"
-    image_path = r"images/pvcdoor_folding.jpg"
+    # image_path = r"images/pvcdoor_folding.jpg"
 
     # [MISC]
     # image_path = r"images/whitetable.jpg"
