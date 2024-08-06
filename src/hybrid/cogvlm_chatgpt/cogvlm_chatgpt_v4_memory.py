@@ -40,14 +40,16 @@ def main():
         if session_id not in store:
             store[session_id] = InMemoryHistory()
         return store[session_id]
-    
+
     def get_image_description(info_dict: dict) -> dict:
         """Get the image features."""
 
         quant_config = 8
 
         if quant_config == 4:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
                 "THUDM/cogvlm2-llama3-chat-19B-int4",
                 torch_dtype=torch.bfloat16,
@@ -55,22 +57,30 @@ def main():
                 trust_remote_code=True,
             ).eval()
         if quant_config == 8:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
+                "THUDM/cogvlm2-llama3-chat-19B",
+                torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                low_cpu_mem_usage=True,
+                trust_remote_code=True,
             ).eval()
         else:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+            )
+            model = (
+                AutoModelForCausalLM.from_pretrained(
                     "THUDM/cogvlm2-llama3-chat-19B",
                     torch_dtype=torch.bfloat16,
                     low_cpu_mem_usage=True,
                     trust_remote_code=True,
-            ).eval().to("cuda")
+                )
+                .eval()
+                .to("cuda")
+            )
 
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
@@ -117,7 +127,9 @@ def main():
         quant_config = 8
 
         if quant_config == 4:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B-int4", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
                 "THUDM/cogvlm2-llama3-chat-19B-int4",
                 torch_dtype=torch.bfloat16,
@@ -125,22 +137,30 @@ def main():
                 trust_remote_code=True,
             ).eval()
         if quant_config == 8:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+            )
             model = AutoModelForCausalLM.from_pretrained(
-                    "THUDM/cogvlm2-llama3-chat-19B",
-                    torch_dtype=torch.bfloat16,
-                    quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                    low_cpu_mem_usage=True,
-                    trust_remote_code=True,
+                "THUDM/cogvlm2-llama3-chat-19B",
+                torch_dtype=torch.bfloat16,
+                quantization_config=BitsAndBytesConfig(load_in_8bit=True),
+                low_cpu_mem_usage=True,
+                trust_remote_code=True,
             ).eval()
         else:
-            tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
-            model = AutoModelForCausalLM.from_pretrained(
+            tokenizer = AutoTokenizer.from_pretrained(
+                "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+            )
+            model = (
+                AutoModelForCausalLM.from_pretrained(
                     "THUDM/cogvlm2-llama3-chat-19B",
                     torch_dtype=torch.bfloat16,
                     low_cpu_mem_usage=True,
                     trust_remote_code=True,
-            ).eval().to("cuda")
+                )
+                .eval()
+                .to("cuda")
+            )
 
         # Load image
         image = Image.open(info_dict["image_path"]).convert("RGB")
@@ -158,14 +178,14 @@ def main():
         for query in questions:
 
             if initial_query == True:
-                image = Image.open(info_dict["image_path"]).convert("RGB") # load image
+                image = Image.open(info_dict["image_path"]).convert("RGB")  # load image
                 # initial_query = False
                 input_by_model = model.build_conversation_input_ids(
-                tokenizer,
-                query=query,
-                history=cogvlm_history,
-                images=[image],
-                template_version="chat",
+                    tokenizer,
+                    query=query,
+                    history=cogvlm_history,
+                    images=[image],
+                    template_version="chat",
                 )
             else:
                 image = None
@@ -178,9 +198,17 @@ def main():
 
             input = {
                 "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
-                "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
-                "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
-                "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]] if image is not None else None,
+                "token_type_ids": input_by_model["token_type_ids"]
+                .unsqueeze(0)
+                .to("cuda"),
+                "attention_mask": input_by_model["attention_mask"]
+                .unsqueeze(0)
+                .to("cuda"),
+                "images": (
+                    [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]]
+                    if image is not None
+                    else None
+                ),
             }
             gen_kwargs = {
                 "max_new_tokens": 1024,
@@ -200,7 +228,7 @@ def main():
 
             # Append to answers list
             answers.append(response)
-        
+
         answers_str = "\n".join(answers)
 
         info_dict["image_features"] = answers_str

@@ -21,8 +21,9 @@ from PIL import Image
 from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
+
 def main():
-    
+
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     set_debug(False)
@@ -43,7 +44,9 @@ def main():
         quant_config = 4
 
         # Set tokenizer
-        tokenizer = AutoTokenizer.from_pretrained("THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True)
+        tokenizer = AutoTokenizer.from_pretrained(
+            "THUDM/cogvlm2-llama3-chat-19B", trust_remote_code=True
+        )
 
         if quant_config == 4:
             model = AutoModelForCausalLM.from_pretrained(
@@ -51,7 +54,7 @@ def main():
                 torch_dtype=torch.bfloat16,
                 quantization_config=BitsAndBytesConfig(load_in_4bit=True),
                 low_cpu_mem_usage=True,
-                trust_remote_code=True
+                trust_remote_code=True,
             ).eval()
         elif quant_config == 8:
             model = AutoModelForCausalLM.from_pretrained(
@@ -59,18 +62,22 @@ def main():
                 torch_dtype=torch.bfloat16,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),
                 low_cpu_mem_usage=True,
-                trust_remote_code=True
+                trust_remote_code=True,
             ).eval()
         else:
-            model = AutoModelForCausalLM.from_pretrained(
-                "THUDM/cogvlm2-llama3-chat-19B",
-                torch_dtype=torch.bfloat16,
-                low_cpu_mem_usage=True,
-                trust_remote_code=True
-            ).eval().to('cuda')
+            model = (
+                AutoModelForCausalLM.from_pretrained(
+                    "THUDM/cogvlm2-llama3-chat-19B",
+                    torch_dtype=torch.bfloat16,
+                    low_cpu_mem_usage=True,
+                    trust_remote_code=True,
+                )
+                .eval()
+                .to("cuda")
+            )
 
         # Load image
-        image = Image.open(info_dict['image_path']).convert('RGB')
+        image = Image.open(info_dict["image_path"]).convert("RGB")
 
         prompt = f"""
         Given the task: {info_dict["task"]}, describe all RELEVANT features in the image.
@@ -79,29 +86,35 @@ def main():
         """
 
         input_by_model = model.build_conversation_input_ids(
-            tokenizer, 
-            query=prompt, 
-            history=None, 
-            images=[image], 
-            template_version='chat')
+            tokenizer,
+            query=prompt,
+            history=None,
+            images=[image],
+            template_version="chat",
+        )
         input = {
-            'input_ids': input_by_model['input_ids'].unsqueeze(0).to('cuda'),
-            'token_type_ids': input_by_model['token_type_ids'].unsqueeze(0).to('cuda'),
-            'attention_mask': input_by_model['attention_mask'].unsqueeze(0).to('cuda'),
-            'images': [[input_by_model['images'][0].to('cuda').to(torch.bfloat16)]],
+            "input_ids": input_by_model["input_ids"].unsqueeze(0).to("cuda"),
+            "token_type_ids": input_by_model["token_type_ids"].unsqueeze(0).to("cuda"),
+            "attention_mask": input_by_model["attention_mask"].unsqueeze(0).to("cuda"),
+            "images": [[input_by_model["images"][0].to("cuda").to(torch.bfloat16)]],
         }
-        gen_kwargs = {"max_new_tokens": 2048, "pad_token_id": 128002, "do_sample": True, "temperature": 0.2}
+        gen_kwargs = {
+            "max_new_tokens": 2048,
+            "pad_token_id": 128002,
+            "do_sample": True,
+            "temperature": 0.2,
+        }
 
         with torch.no_grad():
             output = model.generate(**input, **gen_kwargs)
-            output = output[:, input['input_ids'].shape[1]:]
+            output = output[:, input["input_ids"].shape[1] :]
             response = tokenizer.decode(output[0])
             response = response.split("<|end_of_text|>")[0]
 
         info_dict["image_features"] = response
 
         return info_dict
-    
+
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
@@ -258,4 +271,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

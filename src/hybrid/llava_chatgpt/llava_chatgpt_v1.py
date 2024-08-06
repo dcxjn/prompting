@@ -4,7 +4,11 @@ import time
 
 from dotenv import load_dotenv
 
-from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, BitsAndBytesConfig
+from transformers import (
+    LlavaNextProcessor,
+    LlavaNextForConditionalGeneration,
+    BitsAndBytesConfig,
+)
 
 from langchain.globals import set_debug
 
@@ -21,8 +25,9 @@ from PIL import Image
 from src.utils.image_util import load_image, resize_image
 from src.utils.memory_history_util import InMemoryHistory
 
+
 def main():
-    
+
     load_dotenv()
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     set_debug(False)
@@ -43,7 +48,9 @@ def main():
         quant_config = 4
 
         # processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-34b-hf")
-        processor = LlavaNextProcessor.from_pretrained("llava-hf/llava-v1.6-vicuna-13b-hf")
+        processor = LlavaNextProcessor.from_pretrained(
+            "llava-hf/llava-v1.6-vicuna-13b-hf"
+        )
 
         if quant_config == 4:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -53,7 +60,7 @@ def main():
                 do_sample=True,
                 temperature=0.2,
                 quantization_config=BitsAndBytesConfig(load_in_4bit=True),
-                device_map="cuda"
+                device_map="cuda",
             )
         elif quant_config == 8:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -63,7 +70,7 @@ def main():
                 do_sample=True,
                 temperature=0.2,
                 quantization_config=BitsAndBytesConfig(load_in_8bit=True),
-                device_map="cuda"
+                device_map="cuda",
             )
         else:
             model = LlavaNextForConditionalGeneration.from_pretrained(
@@ -72,7 +79,7 @@ def main():
                 torch_dtype=torch.bfloat16,
                 do_sample=True,
                 temperature=0.2,
-                device_map="cuda"
+                device_map="cuda",
             )
 
         # Load image
@@ -93,7 +100,7 @@ def main():
         info_dict["image_features"] = output
 
         return info_dict
-    
+
     def get_instructions(info_dict: dict) -> dict:
         """Get the instructions for a robot to perform the required task given an image."""
 
@@ -250,4 +257,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

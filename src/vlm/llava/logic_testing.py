@@ -1,4 +1,8 @@
-from transformers import LlavaNextProcessor, LlavaNextForConditionalGeneration, BitsAndBytesConfig
+from transformers import (
+    LlavaNextProcessor,
+    LlavaNextForConditionalGeneration,
+    BitsAndBytesConfig,
+)
 
 import torch
 
@@ -30,10 +34,10 @@ def main():
     quant_config = 8
 
     if model_size == 13:
-        model_path = "llava-hf/llava-v1.6-vicuna-13b-hf" # 13b model
+        model_path = "llava-hf/llava-v1.6-vicuna-13b-hf"  # 13b model
     elif model_size == 34:
-        model_path = "llava-hf/llava-v1.6-34b-hf" # 34b model
-    
+        model_path = "llava-hf/llava-v1.6-34b-hf"  # 34b model
+
     processor = LlavaNextProcessor.from_pretrained(model_path)
 
     if quant_config == 4:
